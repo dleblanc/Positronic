@@ -1,3 +1,28 @@
 A dual-n-back game for the Android (android + brain == positronic?).
 
 Written in Scala.
+
+
+To build:
+
+  - Download and install SBT: http://code.google.com/p/simple-build-tool/
+
+  - Get this distribution:
+	git clone git@github.com:dleblanc/Positronic.git
+
+  - Grab the dependencies:
+	sbt update
+
+  - Run the tests:
+	sbt test
+
+  - Run the tests everytime a file is changed:
+	sbt ~test
+
+  - Build the package:
+	sbt package-debug
+
+  - Install it on the emulator:
+	sbt reinstall-emulator
+
+
