@@ -1,0 +1,12 @@
+.scala_dependencies
+.settings
+lib_managed
+project/boot
+project/build/target
+project/plugins/src_managed
+project/plugins/target
+project/plugins/project
+target
+tests/lib_managed
+tests/target
+
