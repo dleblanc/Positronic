@@ -1,5 +1,6 @@
 package game.util
 
 trait DelayedRunner {
-  def runDelayed(delay: Int, func: () => Unit)
+  def runDelayedOnce(delay: Int, func: () => Unit)
+  def runDelayedRepeating(delay: Int, func: () => Unit)
 }

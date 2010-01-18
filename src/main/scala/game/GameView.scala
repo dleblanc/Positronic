@@ -1,11 +1,9 @@
 package game
 
-class GameView {
-  def startGame(): Unit = {
-    ()
-  }
- 
-  def highlightCell(x: Int, y:Int) = {
-    
-  }
+trait GameView {
+	def startGame(): Unit
+	
+	def highlightCell(x: Int, y:Int)
+	
+	def successfulPositionMatch()
 }
