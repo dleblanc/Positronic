@@ -30,12 +30,14 @@ class MainActivity extends Activity with GameView {
 	var squaresByRow = new scala.collection.mutable.ListBuffer[scala.collection.mutable.ListBuffer[Button]]
 	
 	var positionSuccessTextField: TextView = null // Arrgh, how to make this a val
-
+	var soundSuccessTextField: TextView = null
+	
     override def onCreate(savedInstanceState: Bundle) {
 	    super.onCreate(savedInstanceState)
 	
 		val mainView = getLayoutInflater().inflate(R.layout.positronic, null)
-		positionSuccessTextField = mainView.findViewById(R.id.sucessTextField).asInstanceOf[TextView]
+		positionSuccessTextField = mainView.findViewById(R.id.positionSucessTextField).asInstanceOf[TextView]
+		soundSuccessTextField = mainView.findViewById(R.id.soundSucessTextField).asInstanceOf[TextView]
 
 		val layout = new TableLayout(this)
 		layout.setStretchAllColumns(true)
@@ -72,6 +74,12 @@ class MainActivity extends Activity with GameView {
 				controller.positionMatchFromView()
 			}
 		})
+		
+		mainView.findViewById(R.id.soundMatchButton).setOnClickListener(new OnClickListener() {
+			override def onClick(view: View): Unit = {
+				controller.soundMatchFromView()
+			}
+		})
     }
 
 
@@ -92,6 +100,9 @@ class MainActivity extends Activity with GameView {
 	
 	override def successfulPositionMatch() = showMomentaryText(positionSuccessTextField, "match")
 	override def unsuccessfulPositionMatch() = showMomentaryText(positionSuccessTextField, "no match")
+
+	override def successfulSoundMatch() = showMomentaryText(soundSuccessTextField, "match")
+	override def unsuccessfulSoundMatch() = showMomentaryText(soundSuccessTextField, "no match")
 	
 	def showMomentaryText(textField: TextView, value: String) = {
 		Log.d("Positronic", value)
@@ -99,6 +110,4 @@ class MainActivity extends Activity with GameView {
 		delayedRunner.runDelayedOnce(800, () => textField.setText(""))
 	}
 }
-
-
 

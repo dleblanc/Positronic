@@ -22,12 +22,22 @@ class GameController(val view: GameView, val width: Int, val height: Int, val de
 		view.highlightCell(x, y)
 	}
 	
+	// TODO: factor out duplication in these two methods
 	def positionMatchFromView() = {
 		if (moveHistory.matchesLocationNMovesAgo(numberBack)) {
 			view.successfulPositionMatch()
 		}
 		else {
 			view.unsuccessfulPositionMatch()
+		}
+	}
+	
+	def soundMatchFromView() = {
+		if (moveHistory.matchesSoundNMovesAgo(numberBack)) {
+			view.successfulSoundMatch()
+		}
+		else {
+			view.unsuccessfulSoundMatch()
 		}
 	}
 }
