@@ -47,5 +47,15 @@ class GameControllerTest extends FunSuite with ShouldMatchers {
 		verify(mockView).successfulPositionMatch()
 	}
 
+	test("selecting a position match notifies the user of failure when it doesnt match") {
+		val mockView = mock(classOf[GameView])
+		
+	    val controller = new GameController(mockView, 1, 1, mock(classOf[DelayedRunner])) {
+			moveHistory = new MoveHistory(Nil)
+		}
+		
+		controller.positionMatchFromView()
+		verify(mockView).unsuccessfulPositionMatch()
+	}
 }
 

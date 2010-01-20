@@ -20,6 +20,7 @@ public final class R {
         public static final int buttonRow2=0x7f050003;
         public static final int cellTable=0x7f050000;
         public static final int positionMatchButton=0x7f050004;
+        public static final int sucessTextField=0x7f050005;
     }
     public static final class layout {
         public static final int positronic=0x7f030000;

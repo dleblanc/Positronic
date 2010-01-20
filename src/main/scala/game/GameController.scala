@@ -26,5 +26,8 @@ class GameController(val view: GameView, val width: Int, val height: Int, val de
 		if (moveHistory.matchesLocationNMovesAgo(numberBack)) {
 			view.successfulPositionMatch()
 		}
+		else {
+			view.unsuccessfulPositionMatch()
+		}
 	}
 }

@@ -16,9 +16,11 @@ import game._
 import game.util._
 
 
-class MainActivity extends Activity {
+class MainActivity extends Activity with GameView {
+	
 	val delayedRunner = new AndroidDelayedRunner()
 	val randomGenerator = new Random()
+	
 	
 	// TODO: try this instead? val res = 1 to 3 map (i => 1 to 3 map (j => i * j)).toList
 	// var squaresByRow =		
@@ -26,15 +28,19 @@ class MainActivity extends Activity {
 	// 	  yield for (col <- 0 until 3)
 	// 	    yield new Button(this)
 	var squaresByRow = new scala.collection.mutable.ListBuffer[scala.collection.mutable.ListBuffer[Button]]
+	
+	var positionSuccessTextField: TextView = null // Arrgh, how to make this a val
 
     override def onCreate(savedInstanceState: Bundle) {
-	
 	    super.onCreate(savedInstanceState)
+	
+		val mainView = getLayoutInflater().inflate(R.layout.positronic, null)
+		positionSuccessTextField = mainView.findViewById(R.id.sucessTextField).asInstanceOf[TextView]
 
 		val layout = new TableLayout(this)
 		layout.setStretchAllColumns(true)
 	
-		val mainView = getLayoutInflater().inflate(R.layout.positronic, null)
+		
 		setContentView(mainView)
 	
 		val buttonRows = List(R.id.buttonRow0, R.id.buttonRow1, R.id.buttonRow2)
@@ -55,34 +61,13 @@ class MainActivity extends Activity {
 			buttonRows(row).addView(squaresByRow(row)(col))	
 		}
 	
-		val gameView = new GameView {
-		  def startGame(): Unit = {}
-
-		  def highlightCell(x: Int, y:Int) = {
-			val square = squaresByRow(x)(y)
-
-			// Not working - just makes the patch black (go full 2d instead?)
-			// val selectedDrawable = new ShapeDrawable(new RoundRectShape(Array(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f), new RectF(), null))
-			// selectedDrawable.getPaint().setColor(0xFF000000)
-			// square.setBackgroundDrawable(selectedDrawable)
-					
-			val animation = new AlphaAnimation(0.0f, 1.0f)
-			animation.setDuration(500)
-			square.startAnimation(animation)
-		  }
-		
-		  def successfulPositionMatch() = {
-			Log.d("Positronic", "matched position")
-		  }
-		}
 	
 	    // TODO: use the DI-like stuff for injecting a default delayed runner here	
-	    val controller = new GameController(gameView, 3, 3, new AndroidDelayedRunner())
+	    val controller = new GameController(this, 3, 3, new AndroidDelayedRunner())
 	  
 	    controller.startGame()
 	
-		val positionMatchButton = mainView.findViewById(R.id.positionMatchButton)
-		positionMatchButton.setOnClickListener(new OnClickListener() {
+		mainView.findViewById(R.id.positionMatchButton).setOnClickListener(new OnClickListener() {
 			override def onClick(view: View): Unit = {
 				controller.positionMatchFromView()
 			}
@@ -90,6 +75,29 @@ class MainActivity extends Activity {
     }
 
 
+	override def startGame(): Unit = {}
+
+	override def highlightCell(x: Int, y:Int) = {
+		val square = squaresByRow(x)(y)
+
+		// Not working - just makes the patch black (go full 2d instead?)
+		// val selectedDrawable = new ShapeDrawable(new RoundRectShape(Array(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f), new RectF(), null))
+		// selectedDrawable.getPaint().setColor(0xFF000000)
+		// square.setBackgroundDrawable(selectedDrawable)
+				
+		val animation = new AlphaAnimation(0.0f, 1.0f)
+		animation.setDuration(500)
+		square.startAnimation(animation)
+	}
+	
+	override def successfulPositionMatch() = showMomentaryText(positionSuccessTextField, "match")
+	override def unsuccessfulPositionMatch() = showMomentaryText(positionSuccessTextField, "no match")
+	
+	def showMomentaryText(textField: TextView, value: String) = {
+		Log.d("Positronic", value)
+		textField.setText(value)
+		delayedRunner.runDelayedOnce(800, () => textField.setText(""))
+	}
 }
 
 

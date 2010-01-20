@@ -6,4 +6,6 @@ trait GameView {
 	def highlightCell(x: Int, y:Int)
 	
 	def successfulPositionMatch()
+	
+	def unsuccessfulPositionMatch()	
 }

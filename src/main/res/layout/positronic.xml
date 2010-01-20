@@ -28,10 +28,17 @@
 		</TableRow>
 	</TableLayout>
 
-
-	<Button android:id="@+id/positionMatchButton" android:layout_gravity="center_horizontal|bottom"
-		android:text="Position" android:layout_below="@+id/cellTable"
-		android:layout_width="wrap_content" android:layout_height="wrap_content">
+	<Button android:id="@+id/positionMatchButton"
+		android:layout_gravity="center_horizontal|bottom" android:text="Position"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_below="@+id/cellTable">
 	</Button>
+
+	<TextView android:id="@+id/sucessTextField"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_below="@+id/positionMatchButton">
+	</TextView>
+
+
 
 </RelativeLayout>

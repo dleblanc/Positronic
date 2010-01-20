@@ -30,4 +30,9 @@ class MoveHistoryTest extends FunSuite with ShouldMatchers {
 	  	.addMove(new Move(Location(0,0), Sound.Q))
 	  history.matchesSoundNMovesAgo(1) should equal (true)
 	}
+	
+	test("doesnt match any moves ago for empty move history") {
+	  val history = new MoveHistory(Nil)
+	  history.matchesSoundNMovesAgo(1) should equal (false)
+	}
 }

@@ -9,4 +9,5 @@ project/plugins/project
 target
 tests/lib_managed
 tests/target
+bin
 
