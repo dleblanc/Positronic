@@ -23,7 +23,7 @@ class MoveHistory(val moves: List[Move]) {
     def matchesSoundNMovesAgo(numMovesAgo: Int) = matchesNMovesAgo(numMovesAgo, (current, old) => current.sound == old.sound)
     
     private def matchesNMovesAgo(numMovesAgo: Int, matchFunc: (Move, Move) => Boolean): Boolean = {
-  	  if (numMovesAgo > moves.size) {
+  	  if (numMovesAgo >= moves.size) {
   	    return false
   	  }
 
