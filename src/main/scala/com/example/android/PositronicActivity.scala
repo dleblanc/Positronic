@@ -1,5 +1,5 @@
 package com.example.android
- 
+
 import _root_.android.app.Activity
 import _root_.android.os.Bundle
 import _root_.android.widget._
@@ -10,13 +10,15 @@ import _root_.android.graphics.drawable.shapes._
 import _root_.android.graphics.RectF
 import _root_.android.util._
 import _root_.android.view.View._
+import _root_.android.media._
 
 import scala.util._
 import game._
 import game.util._
 
 
-class MainActivity extends Activity with GameView {
+// TODO: instantiate and use a view separately (passing this as a context), because init must happen in onCreate (and we like vals)
+class PositronicActivity extends Activity with GameView {
 	
 	val delayedRunner = new AndroidDelayedRunner()
 	val randomGenerator = new Random()
@@ -32,6 +34,8 @@ class MainActivity extends Activity with GameView {
 	var positionSuccessTextField: TextView = null // Arrgh, how to make this a val
 	var soundSuccessTextField: TextView = null
 	
+	var controller: GameController = null
+		
     override def onCreate(savedInstanceState: Bundle) {
 	    super.onCreate(savedInstanceState)
 	
@@ -65,7 +69,7 @@ class MainActivity extends Activity with GameView {
 	
 	
 	    // TODO: use the DI-like stuff for injecting a default delayed runner here	
-	    val controller = new GameController(this, 3, 3, new AndroidDelayedRunner())
+	    controller = new GameController(this, 3, 3, new AndroidDelayedRunner())
 	  
 	    controller.startGame()
 	
@@ -81,6 +85,11 @@ class MainActivity extends Activity with GameView {
 			}
 		})
     }
+
+	override def onPause() = {
+		controller.pauseGame()
+		super.onPause()
+	}
 
 
 	override def startGame(): Unit = {}
@@ -98,11 +107,30 @@ class MainActivity extends Activity with GameView {
 		square.startAnimation(animation)
 	}
 	
-	override def successfulPositionMatch() = showMomentaryText(positionSuccessTextField, "match")
-	override def unsuccessfulPositionMatch() = showMomentaryText(positionSuccessTextField, "no match")
+	def playSound(sound: Sound.Value) = {
+		val soundsToResources = Map(
+			Sound.C -> R.raw.c,
+			Sound.H -> R.raw.h,
+			Sound.K -> R.raw.k,
+			Sound.L -> R.raw.l,
+			Sound.Q -> R.raw.q,
+			Sound.R -> R.raw.r,
+			Sound.S -> R.raw.s,
+			Sound.T -> R.raw.t)
 
-	override def successfulSoundMatch() = showMomentaryText(soundSuccessTextField, "match")
-	override def unsuccessfulSoundMatch() = showMomentaryText(soundSuccessTextField, "no match")
+		val mediaPlayer = MediaPlayer.create(this, soundsToResources(sound)) // TODO: don't do this every time
+		mediaPlayer.start();
+		delayedRunner.runDelayedOnce(500, () => {
+			mediaPlayer.stop()
+			mediaPlayer.release()
+		})
+	}
+	
+	override def successfulPositionMatch() = showMomentaryText(positionSuccessTextField, "position match")
+	override def unsuccessfulPositionMatch() = showMomentaryText(positionSuccessTextField, "no position match")
+
+	override def successfulSoundMatch() = showMomentaryText(soundSuccessTextField, "sound match")
+	override def unsuccessfulSoundMatch() = showMomentaryText(soundSuccessTextField, "no sound match")
 	
 	def showMomentaryText(textField: TextView, value: String) = {
 		Log.d("Positronic", value)

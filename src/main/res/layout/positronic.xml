@@ -1,36 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:gravity="center_horizontal">
+	android:gravity="center_horizontal" android:layout_centerHorizontal="true">
 
 	<TableLayout android:id="@+id/cellTable"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:layout_gravity="center_horizontal|top" android:orientation="vertical"
-		android:layout_alignParentTop="true" android:layout_alignParentLeft="false">
+		android:gravity="center_horizontal" 
+		android:layout_alignParentTop="true" android:layout_centerHorizontal="true">
 
-		<!--
-			<include android:id="@+id/row" layout="@layout/button_row" />
-			<include android:id="@+id/row" layout="@layout/button_row" />
-			<include android:id="@+id/row" layout="@layout/button_row" />
-		-->
-
-		<TableRow android:layout_width="wrap_content"
+		<TableRow android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:orientation="horizontal"
 			android:id="@+id/buttonRow0">
 		</TableRow>
-		<TableRow android:layout_width="wrap_content"
+		<TableRow android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:orientation="horizontal"
-			android:id="@+id/buttonRow1">
+			android:id="@+id/buttonRow1" android:layout_below="@+id/buttonRow0">
 		</TableRow>
-		<TableRow android:layout_width="wrap_content"
+		<TableRow android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:orientation="horizontal"
-			android:id="@+id/buttonRow2">
+			android:id="@+id/buttonRow2" android:layout_below="@+id/buttonRow1" android:layout_centerHorizontal="true">
 		</TableRow>
 	</TableLayout>
 
 	<Button android:id="@+id/positionMatchButton"
 		android:layout_gravity="center_horizontal|bottom" android:text="Position"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_width="80dp" android:layout_height="80dp"
 		android:layout_below="@+id/cellTable">
 	</Button>
 
@@ -41,7 +36,7 @@
 
 	<Button android:id="@+id/soundMatchButton"
 		android:layout_gravity="center_horizontal|bottom" android:text="Sound"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_width="80dp" android:layout_height="80dp"
 		android:layout_toRightOf="@+id/positionMatchButton"
 		android:layout_alignBottom="@+id/positionMatchButton">
 	</Button>

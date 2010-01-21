@@ -19,20 +19,31 @@ class RunTaskAnswer extends Answer[Object] {
 
 class GameControllerTest extends FunSuite with ShouldMatchers {
 	
-  test("delays an initial period, then highlights any square") {
-    val mockView = mock(classOf[GameView])
-    val mockRunner = mock(classOf[DelayedRunner])
+	test("delays an initial period, then highlights any square") {
+	    val mockView = mock(classOf[GameView])
+	    val mockRunner = mock(classOf[DelayedRunner])
 
-    // Run the scheduled task immediately when scheduled
-    doAnswer(new RunTaskAnswer()).when(mockRunner).runDelayedRepeating(anyObject(), anyObject())
+	    // Run the scheduled task immediately when scheduled
+	    doAnswer(new RunTaskAnswer()).when(mockRunner).runDelayedRepeating(anyObject(), anyObject())
 
-    //val controller = new GameController(mockView, 1, 1, new RunNowRunner(1))
-    val controller = new GameController(mockView, 1, 1, mockRunner)
-    controller.startGame()
-    
-    verify(mockRunner).runDelayedRepeating(any(), any())    
-    verify(mockView).highlightCell(anyInt(), anyInt())
-  }
+	    val controller = new GameController(mockView, 1, 1, mockRunner)
+	    controller.startGame()
+
+	    verify(mockView).highlightCell(anyInt(), anyInt())
+	}
+
+	test("delays an initial period, then plays a sound") {
+	    val mockView = mock(classOf[GameView])
+	    val mockRunner = mock(classOf[DelayedRunner])
+
+	    // Run the scheduled task immediately when scheduled
+	    doAnswer(new RunTaskAnswer()).when(mockRunner).runDelayedRepeating(anyObject(), anyObject())
+
+	    val controller = new GameController(mockView, 1, 1, mockRunner)
+	    controller.startGame()
+
+	    verify(mockView).playSound(anyObject())
+	}
 
 	test("selecting a position match notifies the user of success when it matches") {
 		val mockView = mock(classOf[GameView])
@@ -56,6 +67,18 @@ class GameControllerTest extends FunSuite with ShouldMatchers {
 		
 		controller.positionMatchFromView()
 		verify(mockView).unsuccessfulPositionMatch()
+	}
+	
+	test("pausing game clears events from runner") {
+		// Too techie - what is the behaviour expressed here?
+	    val mockView = mock(classOf[GameView])
+	    val mockRunner = mock(classOf[DelayedRunner])
+
+	    val controller = new GameController(mockView, 1, 1, mockRunner)
+	    controller.startGame()
+		controller.pauseGame()
+
+	    verify(mockRunner).clearPendingEvents()
 	}
 }
 

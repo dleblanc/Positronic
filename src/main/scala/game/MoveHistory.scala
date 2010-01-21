@@ -2,7 +2,7 @@ package game
 
 // Should probably put these accessory classes somewhere more general
 object Sound extends Enumeration {
-  val L, T, C, K, S, R, H, Q = Value
+  val C, H, K, L, Q, R, S, T = Value
 }
 
 case class Location(x: Int, y: Int)
@@ -20,7 +20,9 @@ class MoveHistory(val moves: List[Move]) {
  
   	def matchesLocationNMovesAgo(numMovesAgo: Int) = matchesNMovesAgo(numMovesAgo, (current, old) => current.location == old.location)
    
-    def matchesSoundNMovesAgo(numMovesAgo: Int) = matchesNMovesAgo(numMovesAgo, (current, old) => current.sound == old.sound)
+    def matchesSoundNMovesAgo(numMovesAgo: Int) = matchesNMovesAgo(numMovesAgo, (current, old) => {
+		current.sound == old.sound
+	})
     
     private def matchesNMovesAgo(numMovesAgo: Int, matchFunc: (Move, Move) => Boolean): Boolean = {
   	  if (numMovesAgo >= moves.size) {

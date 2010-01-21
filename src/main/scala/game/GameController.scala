@@ -7,19 +7,29 @@ import java.util.Random
 class GameController(val view: GameView, val width: Int, val height: Int, val delayedRunner: DelayedRunner) {
 	protected val randomGenerator = new Random()
 	protected var moveHistory = new MoveHistory(Nil)
+	
 	private[this] val numberBack = 1
+	private[this] val sounds = Sound.elements.toList
 	
 	def startGame() = {
-		delayedRunner.runDelayedRepeating(1000, highlightCell)
+		delayedRunner.runDelayedRepeating(1000, makeRandomPlay)
 		moveHistory = new MoveHistory(Nil)
 	}
+	
+	def pauseGame() = {
+		delayedRunner.clearPendingEvents()
+	}
   
-	def highlightCell(): Unit = {
+	def makeRandomPlay(): Unit = {
 		val x = randomGenerator.nextInt(width)
 		val y = randomGenerator.nextInt(height)
 		
-		moveHistory = moveHistory.addMove(new Move(new Location(x, y), Sound.Q))
+		val sound =  sounds(randomGenerator.nextInt(sounds.size))
+		
+		moveHistory = moveHistory.addMove(new Move(new Location(x, y), sound))
+		
 		view.highlightCell(x, y)
+		view.playSound(sound)
 	}
 	
 	// TODO: factor out duplication in these two methods
