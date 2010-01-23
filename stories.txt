@@ -1,0 +1,16 @@
+Upcoming stories to finish:
+
+ - Not enough pairs - generate a minimum # of them in the randomized list
+ - (related to:) finish the game after M moves
+ - Accept keyboard input
+ - Display success/failure with colour for each type (audible, visual)
+ - support changing the N back number (manually)
+ - track statistics for a single game - show total at end
+ - show running total as the game progresses
+ - support pausing the game
+ - support unpausing the game (and make it work after it's backgrounded & restored)
+ - make the game always stay up? (or perhaps save it's position?) 
+ - auto-change the N back number based upon success statistics
+ - unify the duplicated code between sounds and locations. Right now the sound stuff isn't as well tested.
+ - provide a visual for the audio portion (if using it in public)?
+

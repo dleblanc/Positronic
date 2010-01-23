@@ -27,8 +27,5 @@ To build:
   - Install it on the emulator:
 	sbt reinstall-emulator
 
-TODOS:
- - unify the duplicated code between sounds and locations. Right now the sound stuff isn't as well tested.
-
 Image of the brain taken from http://openclipart.org/SOMbanners/files/kattekrab/8060, which is in the public domain.
 Sounds taken from the excellent 'Brain Workshop' open source desktop program.

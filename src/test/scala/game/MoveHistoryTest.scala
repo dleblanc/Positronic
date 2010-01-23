@@ -2,7 +2,6 @@ package game
 import org.scalatest.matchers._
 import org.scalatest._
 
-// TODO: rename to move history test
 class MoveHistoryTest extends FunSuite with ShouldMatchers {
 
   // NOTE: wouldn't it be awesome to be able to express these as story tests? -- cucumber + jruby
