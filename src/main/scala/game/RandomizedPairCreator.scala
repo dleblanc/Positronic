@@ -47,9 +47,7 @@ class RandomizedPairCreator {
 	
 	// @TailRec
 	def introduceMatchesAtIndexes[T](originalList: List[T], sortedIndexes: List[Int], fromCollection: List[T], currentIndex: Int, nBack: Int): List[T] = {
-		println("originalList: " + originalList)
-		println("sortedIndexes: " + sortedIndexes)
-		
+
 		if (sortedIndexes.size == 0) {
 			originalList
 		}
@@ -58,7 +56,6 @@ class RandomizedPairCreator {
 			
 			val smallerList = introduceMatchesAtIndexes((originalList.tail take nBack - 1) ::: List(originalList.head) ::: (originalList drop nBack + 1), sortedIndexes.tail, fromCollection, currentIndex + 1, nBack)
 			val result = originalList.head :: smallerList
-			println("combined to: " + result)
 			result
 		}
 		else {

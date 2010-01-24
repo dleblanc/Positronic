@@ -20,6 +20,7 @@
 	<classpathentry kind="lib" path="tests/lib_managed/provided/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="tests/lib_managed/provided/httpclient-4.0.jar"/>
 	<classpathentry kind="lib" path="tests/lib_managed/provided/httpcore-4.0.1.jar"/>
+	<classpathentry kind="lib" path="tests/lib_managed/test/scalacheck_2.7.7-1.6.jar"/>
 	<classpathentry kind="con" path="ch.epfl.lamp.sdt.launching.SCALA_CONTAINER"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="src" path="gen"/>

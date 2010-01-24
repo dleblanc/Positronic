@@ -15,17 +15,19 @@ To build:
   - Grab the dependencies:
 	sbt update
 
-  - Run the tests:
-	sbt test
-
-  - Run the tests everytime a file is changed:
-	sbt ~test
-
   - Build the package:
 	sbt package-debug
 
   - Install it on the emulator:
 	sbt reinstall-emulator
+
+ Done!
+
+  - Run the tests:
+	sbt test
+
+  - Run the tests everytime a file is changed - you would do this in a separate window while you hack on the code:
+	sbt ~test
 
 Image of the brain taken from http://openclipart.org/SOMbanners/files/kattekrab/8060, which is in the public domain.
 Sounds taken from the excellent 'Brain Workshop' open source desktop program.
