@@ -5,6 +5,26 @@ import java.util.Random
 class RandomizedPairCreator {
 	
 	private[this] val randomGenerator = new Random()
+
+	def createRandomizedListWithNMatches[T](size: Int, nBack:Int, numberOfMatches: Int, fromCollection: Array[T]) : List[T] = {
+		val nonMatchedList = fillOutRandomlyWithNonMatchesNBack(size, nBack, fromCollection)
+		insertNRandomMatches(nonMatchedList, nBack, numberOfMatches)
+	}
+
+	//@TailRec
+	def fillOutRandomlyWithNonMatchesNBack[T](listSize: Int, nBack: Int, fromElements: Array[T]):List[T] = listSize match {
+		case 0 => Nil
+		
+		case x if (1 to nBack contains x) => { // TODO: this test is probably slow
+			fromElements(randomGenerator.nextInt(fromElements.size)) :: fillOutRandomlyWithNonMatchesNBack(listSize - 1, nBack, fromElements)
+		}
+		
+		case _ => {
+			val shorterList = fillOutRandomlyWithNonMatchesNBack(listSize - 1, nBack, fromElements)
+			val nonMatch = getRandomlyFromListExcludingElement(shorterList(nBack - 1), fromElements)
+			nonMatch :: shorterList
+		}
+	}
 	
 	// @TailRec
 	def pickRandomElements[T](fromSequence: List[T], pairCount: Int): List[T] = {
@@ -23,30 +43,15 @@ class RandomizedPairCreator {
 		return values(randomGenerator.nextInt(values.size))
 	}
 
-	//@TailRec
-	def fillOutRandomlyWithNonMatchesNBack[T](listSize: Int, nBack: Int, fromElements: Array[T]):List[T] = listSize match {
-		case 0 => Nil
-		
-		case x if (1 to nBack contains x) => {
-			fromElements(randomGenerator.nextInt(fromElements.size)) :: fillOutRandomlyWithNonMatchesNBack(listSize - 1, nBack, fromElements)
-		}
-		
-		case _ => {
-			val shorterList = fillOutRandomlyWithNonMatchesNBack(listSize - 1, nBack, fromElements)
-			val nonMatch = getRandomlyFromListExcludingElement(shorterList(nBack - 1), fromElements)
-			nonMatch :: shorterList
-		}
-	}
-	
-	def insertNRandomMatches[T](originalList: List[T], nBack: Int, numberOfMatches: Int, fromCollection: List[T]): List[T] = {
+	def insertNRandomMatches[T](originalList: List[T], nBack: Int, numberOfMatches: Int): List[T] = {
 		val randomIndexes = pickRandomElements((0 until originalList.size - nBack).toList, numberOfMatches)
 		val sortedIndexes = randomIndexes sort((a, b) => a < b)
 		
-		introduceMatchesAtIndexes(originalList, sortedIndexes, fromCollection, 0, nBack)
+		introduceMatchesAtIndexes(originalList, sortedIndexes, 0, nBack)
 	}
 	
 	// @TailRec
-	def introduceMatchesAtIndexes[T](originalList: List[T], sortedIndexes: List[Int], fromCollection: List[T], currentIndex: Int, nBack: Int): List[T] = {
+	def introduceMatchesAtIndexes[T](originalList: List[T], sortedIndexes: List[Int], currentIndex: Int, nBack: Int): List[T] = {
 
 		if (sortedIndexes.size == 0) {
 			originalList
@@ -54,12 +59,12 @@ class RandomizedPairCreator {
 		else if (sortedIndexes.head == currentIndex) {
 			// Shitballs, have to append to the start of this shit
 			
-			val smallerList = introduceMatchesAtIndexes((originalList.tail take nBack - 1) ::: List(originalList.head) ::: (originalList drop nBack + 1), sortedIndexes.tail, fromCollection, currentIndex + 1, nBack)
+			val smallerList = introduceMatchesAtIndexes((originalList.tail take nBack - 1) ::: List(originalList.head) ::: (originalList drop nBack + 1), sortedIndexes.tail, currentIndex + 1, nBack)
 			val result = originalList.head :: smallerList
 			result
 		}
 		else {
-			originalList.head :: introduceMatchesAtIndexes(originalList.tail, sortedIndexes, fromCollection, currentIndex + 1, nBack) 
+			originalList.head :: introduceMatchesAtIndexes(originalList.tail, sortedIndexes, currentIndex + 1, nBack) 
 		}
 	}
 }

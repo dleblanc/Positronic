@@ -46,7 +46,7 @@ class RandomizedPairCreatorTest extends FunSuite with ShouldMatchers {
  			listSize > 0 && 
  			numberOfMatches <= (listSize - nBack)) ==> {
  				
-	 			val result = creator.insertNRandomMatches(1 to listSize toList, nBack, numberOfMatches, fromSequence)
+	 			val result = creator.insertNRandomMatches(1 to listSize toList, nBack, numberOfMatches)
 	 			
 	 			val pairedWithNBack = (result drop nBack) zip result
 	 			

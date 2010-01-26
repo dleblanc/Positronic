@@ -27,7 +27,7 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 	val soundPlayer = new SoundPlayer()
 	
 	// TODO: use the DI-like stuff for injecting a default delayed runner here	
-	val controller = new GameController(this, 3, 3, new AndroidDelayedRunner())
+	val controller = new GameController(this, 3, 3, 1, new AndroidDelayedRunner())
 	
 	// List[row - 0 to 3][col - 0 to 3] of Buttons
 	val squaresByRow = (for (row <- 0 until 3) yield

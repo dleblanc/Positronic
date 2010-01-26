@@ -1,5 +1,7 @@
 Upcoming stories to finish:
 
+BUG: We ask for 3 pairings of sounds, sometimes get 4.
+
  - Not enough pairs - generate a minimum # of them in the randomized list
  - (related to:) finish the game after M moves
  - Accept keyboard input
