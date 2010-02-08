@@ -23,7 +23,6 @@ import game.util._
 
 class AndroidGameView(context: Context, mainView: View) extends GameView {
 	val viewDelayedRunner = new AndroidDelayedRunner()
-	val randomGenerator = new Random()
 	val soundPlayer = new SoundPlayer()
 	
 	// TODO: use the DI-like stuff for injecting a default delayed runner here	
@@ -79,7 +78,7 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 		
 	}
 	
-	class SoundPlayer {
+	class SoundPlayer { // TODO: pump out to separate file
 		val mediaPlayer = new MediaPlayer()
 		val soundsToResources = Map(
 			Sound.C -> R.raw.c,

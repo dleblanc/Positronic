@@ -7,7 +7,7 @@
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:layout_gravity="center_horizontal|top" android:orientation="vertical"
 		android:gravity="center_horizontal" 
-		android:layout_alignParentTop="true" android:layout_centerHorizontal="true">
+		android:layout_alignParentTop="true" android:layout_centerHorizontal="false">
 
 		<TableRow android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:orientation="horizontal"
@@ -19,7 +19,7 @@
 		</TableRow>
 		<TableRow android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:orientation="horizontal"
-			android:id="@+id/buttonRow2" android:layout_below="@+id/buttonRow1" android:layout_centerHorizontal="true">
+			android:id="@+id/buttonRow2" android:layout_below="@+id/buttonRow1">
 		</TableRow>
 	</TableLayout>
 
