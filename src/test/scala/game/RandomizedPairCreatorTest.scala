@@ -40,7 +40,7 @@ class RandomizedPairCreatorTest extends FunSuite with ShouldMatchers {
 			
 		result(1) should equal(result(3))
 			
-  		getEqualMatches(result, 1).size should equal (1)
+  		getEqualMatches(result, nBack).size should equal (1)
   	 }
 
  	 test("createRandomizedListWithNMatches puts only the specified number of matches in the output with scalacheck") {
