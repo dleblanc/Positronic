@@ -18,6 +18,7 @@ class MoveHistory(val moves: List[Move]) {
 	  return new MoveHistory(move :: moves);
 	}
  
+    // TODO: rename to Position
   	def matchesLocationNMovesAgo(numMovesAgo: Int) = matchesNMovesAgo(numMovesAgo, (current, old) => current.location == old.location)
    
     def matchesSoundNMovesAgo(numMovesAgo: Int) = matchesNMovesAgo(numMovesAgo, (current, old) => {

@@ -83,17 +83,15 @@ class GameControllerTest extends FunSuite with ShouldMatchers {
 	    verify(mockRunner).clearPendingEvents()
 	}
 
-//	test("updates view at end of game with statistics") {
-//		val mockView = mock(classOf[GameView])
-//		val mockRunner = mock(classOf[DelayedRunner])
-//		val mockCreator = mock(classOf[RandomizedPairCreator])
-//
-//	    val controller = new GameController(mockView, 1, 2, 1, mockRunner)
-//	    controller.startGame()
-//	    controller.makeRandomPlay()
-//	    controller.makeRandomPlay()
-//
-//	    verify(mockView).showSuccessRate(anyDouble())
-//	}
+	test("updates view at end of game with statistics") {
+		val mockView = mock(classOf[GameView])
+		val numberOfPlays = 2
+		val nBack = 1
+		
+	    val controller = new GameController(mockView, nBack, numberOfPlays, 1, new RunNumTimesRunner(4))
+	    controller.startGame()
+
+	    verify(mockView).showSuccessRate(anyDouble())
+	}
 }
 

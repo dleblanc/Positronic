@@ -1,5 +1,6 @@
 package game
 import game.util._
+import game.stats._
 
 // NOTE: scala.util.Random was not seeming very random - using Java's instead
 import java.util.Random
@@ -13,40 +14,53 @@ class GameController(
 		delayedRunner: DelayedRunner) {
 	
 	protected var moveHistory = new MoveHistory(Nil)
-	val creator = new RandomizedPairCreator()
+	var currentSelection = new Selection(false, false)
 	
 	def startGame() = {
 		val availablePositions = for(row <- 0 until 3; col <- 0 until 3)
 			yield (row, col)
 		
+		val creator = new RandomizedPairCreator()
+		
 		val sounds = creator.createRandomizedListWithNMatches(numPlays, nBack, numMatches, Sound.elements.toList.toArray) // TODO: find easier way to convert the sound elements
 		val positions = creator.createRandomizedListWithNMatches(numPlays, nBack, numMatches, availablePositions.toArray)
 
-		delayedRunner.runDelayedOnce(1000, () => makeRandomPlay(0, sounds, positions))
+		delayedRunner.runDelayedOnce(1000, () => makeRandomPlay(sounds, positions, new Stats(Nil, Nil)))
 		moveHistory = new MoveHistory(Nil)
 	}
 	
-	def pauseGame() = {
-		delayedRunner.clearPendingEvents()
-	}
-  
-	def makeRandomPlay(playIndex: Int, sounds: List[Sound.Value], positions: List[(Int, Int)]): Unit = {
-		if (playIndex >= numPlays) {
-			pauseGame()
+	def makeRandomPlay(sounds: List[Sound.Value], positions: List[(Int, Int)], stats: Stats): Unit = {
+		if (positions.isEmpty || sounds.isEmpty) {
+			finishGame(stats)
 			return
 		}
 		
 		val position = positions.head
-		val sound =  sounds.head
+		val sound = sounds.head
 		
 		moveHistory = moveHistory.addMove(new Move(new Location(position._1, position._2), sound))
 		
 		view.highlightCell(position._1, position._2)
 		view.playSound(sound)
 		
-		delayedRunner.runDelayedOnce(1000, () => makeRandomPlay(playIndex + 1, sounds.tail, positions.tail))
+		delayedRunner.runDelayedOnce(1000, () => {
+			val expectedSelection = Selection(moveHistory.matchesSoundNMovesAgo(nBack), moveHistory.matchesLocationNMovesAgo(nBack))
+			val updatedStats = stats.getUpdatedStats(currentSelection, expectedSelection)
+
+			makeRandomPlay(sounds.tail, positions.tail, updatedStats)
+		})
 	}
 	
+	
+	def finishGame(stats: Stats) = {
+		pauseGame()
+		view.showSuccessRate(stats.successRate)
+	}
+	
+	def pauseGame() = {
+		delayedRunner.clearPendingEvents()
+	}
+		
 	// TODO: factor out duplication in these two approaches - sound/view
 	// TODO: how to react to view here - we're updating things on the fly.  Move history is ok I guess.
 	def positionMatchFromView() = {

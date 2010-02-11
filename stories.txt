@@ -1,6 +1,8 @@
 Upcoming stories to finish:
 
-BUG: We ask for 3 pairings of sounds, sometimes get 4.
+DEFECT: currently counting non-guesses as matches when the computer creates a non-match. If the user selects when there is no match, it counts negatively, if the computer created a match and the user didn't select it, it counts negatively, if the computer didn't create a match and the user didn't select it, it doesn't count.
+
+TODO: update the selection when the user presses a button.
 
  - Not enough pairs - generate a minimum # of them in the randomized list
  - (related to:) finish the game after M moves
@@ -15,4 +17,5 @@ BUG: We ask for 3 pairings of sounds, sometimes get 4.
  - auto-change the N back number based upon success statistics
  - unify the duplicated code between sounds and locations. Right now the sound stuff isn't as well tested.
  - provide a visual for the audio portion (if using it in public)?
+
 

@@ -103,9 +103,7 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 		def stop() = mediaPlayer.stop()
 	}
 	
-	override def playSound(sound: Sound.Value) = {
-		soundPlayer.playSound(sound)
-	}
+	override def playSound(sound: Sound.Value) = soundPlayer.playSound(sound)
 	
 	override def successfulPositionMatch() = showMomentaryText(positionSuccessTextField, "position match")
 	override def unsuccessfulPositionMatch() = showMomentaryText(positionSuccessTextField, "no position match")
@@ -139,6 +137,8 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 	
 	
 	def showSuccessRate(successful: Double) = {
+		// FIXME: use a dedicated text field for this one
+		showMomentaryText(positionSuccessTextField, "You scored " + successful + "%")
 		()
 	}
 }

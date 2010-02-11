@@ -27,40 +27,44 @@ controller - creates game
 // TODO: can I create some kind of object that has a 'give me all pairs' method? I'm going a little procedural here
 
 class StatsTest extends FunSuite with ShouldMatchers {
-	class Stats(size: Int) {
-		val selections = List.make(size, false)
+	
+	test("one both-successful guess of a sequence of 1 yields 100%") {
+		val userSelection = Selection(true, true)
+		val generatedSelection = Selection(true, true)
 		
-		// Do this immutably? (return a new stats every time?)
-		def setSelected(index: Int): Stats = {
-			//selections
-			this
-		}
+		val stats = new Stats(Nil, Nil).getUpdatedStats(userSelection, generatedSelection)
+			
+		stats.successRate should equal (100.0)
 	}
 	
-	def getMatchPercentage(matches: List[Boolean], userSelections: List[Boolean]): Double = {
-		val pairs = matches zip userSelections
-		val correctSelections = pairs.filter(pair => pair._1 == pair._2)
-		(correctSelections.size.asInstanceOf[Double] / matches.size ) * 100.0
+	test("one both-unsuccessful guess of a sequence of 1 yields 0%") {
+		val userSelection = Selection(true, true)
+		val generatedSelection = Selection(false, false)
+		
+		val stats = new Stats(Nil, Nil).getUpdatedStats(userSelection, generatedSelection)
+			
+		stats.successRate should equal (0.0)
 	}
 	
-	test("one successful guess of a sequence of 1 yields 100%") {
-		val matches = List(true)
-		val userSelections = List(true)
+	test("one both-successful and one unsuccessful guess in a sequence of 2 yields 50%") {
+		val userSelection = List(Selection(true, true), Selection(false, false))
+		val generatedSelection = List(Selection(true, true), Selection(true, true))
 		
-		getMatchPercentage(matches, userSelections) should equal (100.0)
+		val stats = new Stats(Nil, Nil).
+			getUpdatedStats(userSelection(0), generatedSelection(0)).
+			getUpdatedStats(userSelection(1), generatedSelection(1))
+			
+		stats.successRate should equal (50.0)
 	}
-	
-	test("one unsuccessful guess of a sequence of 1 yields 0%") {
-		val matches = List(false)
-		val userSelections = List(true)
+
+	test("one sound match and no position matches of two selections yields 25%") {
+		val userSelection = List(Selection(true, true), Selection(true, true))
+		val generatedSelection = List(Selection(false, false), Selection(true, false))
 		
-		getMatchPercentage(matches, userSelections) should equal (0.0)
+		val stats = new Stats(Nil, Nil).
+			getUpdatedStats(userSelection(0), generatedSelection(0)).
+			getUpdatedStats(userSelection(1), generatedSelection(1))
+			
+		stats.successRate should equal (25.0)
 	}
-	
-	test("one successful and one unsuccessful guess in a sequence of 2 yields 50%") {
-		val matches = List(false, true)
-		val userSelections = List(true, true)
-		
-		getMatchPercentage(matches, userSelections) should equal (50.0)
-	}	
 }
