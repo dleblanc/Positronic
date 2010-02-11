@@ -12,4 +12,6 @@ trait GameView {
 
 	def successfulSoundMatch()
 	def unsuccessfulSoundMatch()
+	
+	def showSuccessRate(successful: Double)
 }

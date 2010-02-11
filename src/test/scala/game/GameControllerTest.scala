@@ -1,3 +1,4 @@
+
 package game
 import org.scalatest.matchers._
 import org.scalatest.FunSuite
@@ -26,7 +27,7 @@ class GameControllerTest extends FunSuite with ShouldMatchers {
 	    // Run the scheduled task immediately when scheduled
 	    doAnswer(new RunTaskAnswer()).when(mockRunner).runDelayedRepeating(anyObject(), anyObject())
 
-	    val controller = new GameController(mockView, 1, 1, 1, mockRunner)
+	    val controller = new GameController(mockView, 1, 2, 1, mockRunner, new RandomizedPairCreator())
 	    controller.startGame()
 
 	    verify(mockView).highlightCell(anyInt(), anyInt())
@@ -39,7 +40,7 @@ class GameControllerTest extends FunSuite with ShouldMatchers {
 	    // Run the scheduled task immediately when scheduled
 	    doAnswer(new RunTaskAnswer()).when(mockRunner).runDelayedRepeating(anyObject(), anyObject())
 
-	    val controller = new GameController(mockView, 1, 1, 1, mockRunner)
+	    val controller = new GameController(mockView, 1, 2, 1, mockRunner, new RandomizedPairCreator())
 	    controller.startGame()
 
 	    verify(mockView).playSound(anyObject())
@@ -48,7 +49,7 @@ class GameControllerTest extends FunSuite with ShouldMatchers {
 	test("selecting a position match notifies the user of success when it matches") {
 		val mockView = mock(classOf[GameView])
 		
-	    val controller = new GameController(mockView, 1, 1, 1, mock(classOf[DelayedRunner])) {
+	    val controller = new GameController(mockView, 1, 2, 1, mock(classOf[DelayedRunner]), new RandomizedPairCreator()) {
 			moveHistory = new MoveHistory(Nil)
 				.addMove(new Move(new Location(1,1), Sound.Q))
 				.addMove(new Move(new Location(1,1), Sound.Q))
@@ -61,7 +62,7 @@ class GameControllerTest extends FunSuite with ShouldMatchers {
 	test("selecting a position match notifies the user of failure when it doesnt match") {
 		val mockView = mock(classOf[GameView])
 		
-	    val controller = new GameController(mockView, 1, 1, 1, mock(classOf[DelayedRunner])) {
+	    val controller = new GameController(mockView, 1, 2, 1, mock(classOf[DelayedRunner]), new RandomizedPairCreator()) {
 			moveHistory = new MoveHistory(Nil)
 		}
 		
@@ -74,11 +75,24 @@ class GameControllerTest extends FunSuite with ShouldMatchers {
 	    val mockView = mock(classOf[GameView])
 	    val mockRunner = mock(classOf[DelayedRunner])
 
-	    val controller = new GameController(mockView, 1, 1, 1, mockRunner)
+	    val controller = new GameController(mockView, 1, 2, 1, mockRunner, new RandomizedPairCreator())
 	    controller.startGame()
 		controller.pauseGame()
 
 	    verify(mockRunner).clearPendingEvents()
 	}
+//
+//	test("updates view at end of game with statistics") {
+//		val mockView = mock(classOf[GameView])
+//		val mockRunner = mock(classOf[DelayedRunner])
+//		val mockCreator = mock(classOf[RandomizedPairCreator])
+//
+//	    val controller = new GameController(mockView, 1, 2, 1, mockRunner, new RandomizedPairCreator())
+//	    controller.startGame()
+//	    controller.makeRandomPlay()
+//	    controller.makeRandomPlay()
+//
+//	    verify(mockView).showSuccessRate(anyDouble())
+//	}
 }
 
