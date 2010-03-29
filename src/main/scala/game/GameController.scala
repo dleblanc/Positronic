@@ -5,18 +5,23 @@ import game.stats._
 // NOTE: scala.util.Random was not seeming very random - using Java's instead
 import java.util.Random
 
-// TODO: create a new controller for each game - parameterize input
+// TODO: create a new controller for each game - parameterize input (?), not doing this now. 
 class GameController(
 		view: GameView, 
-		nBack: Int, 
 		numPlays: Int, 
 		numMatches: Int, 
 		delayedRunner: DelayedRunner) {
 	
+	val INITIAL_DELAY = 500
+	
 	protected var moveHistory = new MoveHistory(Nil)
 	var currentSelection = new Selection(false, false)
+	var nBack = 0
 	
 	def startGame() = {
+		// rename to restartGame?
+		nBack = view.getNBack()
+		
 		val availablePositions = for(row <- 0 until 3; col <- 0 until 3)
 			yield (row, col)
 		
@@ -25,7 +30,7 @@ class GameController(
 		val sounds = creator.createRandomizedListWithNMatches(numPlays, nBack, numMatches, Sound.elements.toList.toArray) // TODO: find easier way to convert the sound elements
 		val positions = creator.createRandomizedListWithNMatches(numPlays, nBack, numMatches, availablePositions.toArray)
 
-		delayedRunner.runDelayedOnce(1000, () => makeRandomPlay(sounds, positions, new Stats(Nil, Nil)))
+		delayedRunner.runDelayedOnce(INITIAL_DELAY, () => makeRandomPlay(sounds, positions, new Stats(Nil, Nil)))
 		moveHistory = new MoveHistory(Nil)
 	}
 	
@@ -62,7 +67,6 @@ class GameController(
 	}
 		
 	// TODO: factor out duplication in these two approaches - sound/view
-	// TODO: how to react to view here - we're updating things on the fly.  Move history is ok I guess.
 	def positionMatchFromView() = {
 		if (moveHistory.matchesLocationNMovesAgo(nBack)) {
 			view.successfulPositionMatch()

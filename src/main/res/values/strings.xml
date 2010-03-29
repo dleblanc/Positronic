@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Positronic</string>
+    <string name="nBackSelectorPrompt">Select the number back to match</string>
 </resources>

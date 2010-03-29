@@ -1,8 +1,8 @@
 package game
 
+import android.view.KeyEvent
+
 trait GameView {
-	def startGame(): Unit
-	
 	def highlightCell(x: Int, y:Int)
 	
 	def playSound(sound: Sound.Value)
@@ -14,4 +14,6 @@ trait GameView {
 	def unsuccessfulSoundMatch()
 	
 	def showSuccessRate(successful: Double)
+	
+	def getNBack(): Int
 }

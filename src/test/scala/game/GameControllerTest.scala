@@ -28,29 +28,29 @@ class RunNumTimesRunner(var numRuns: Int) extends DelayedRunner {
 class GameControllerTest extends FunSuite with ShouldMatchers {
 	
 	test("delays an initial period, then highlights any square") {
-	    val mockView = mock(classOf[GameView])
+	    val mockView = createMockView()
 
 	    // (NOTE: I'd rather mock the runner to run things immediately, but it's a pain with mockito -just call it directly instead)
 
-	    val controller = new GameController(mockView, 1, 2, 1, new RunNumTimesRunner(1))
+	    val controller = new GameController(mockView, 2, 1, new RunNumTimesRunner(1))
 	    controller.startGame()
 
 	    verify(mockView).highlightCell(anyInt(), anyInt())
 	}
 
 	test("delays an initial period, then plays a sound") {
-	    val mockView = mock(classOf[GameView])
+	    val mockView = createMockView()
 
-	    val controller = new GameController(mockView, 1, 2, 1, new RunNumTimesRunner(1))
+	    val controller = new GameController(mockView, 2, 1, new RunNumTimesRunner(1))
 	    controller.startGame()
 
 	    verify(mockView).playSound(anyObject())
 	}
 
 	test("selecting a position match notifies the user of success when it matches") {
-		val mockView = mock(classOf[GameView])
+		val mockView = createMockView()
 		
-	    val controller = new GameController(mockView, 1, 2, 1, mock(classOf[DelayedRunner])) {
+	    val controller = new GameController(mockView, 2, 1, mock(classOf[DelayedRunner])) {
 			moveHistory = new MoveHistory(Nil)
 				.addMove(new Move(new Location(1,1), Sound.Q))
 				.addMove(new Move(new Location(1,1), Sound.Q))
@@ -61,9 +61,9 @@ class GameControllerTest extends FunSuite with ShouldMatchers {
 	}
 
 	test("selecting a position match notifies the user of failure when it doesnt match") {
-		val mockView = mock(classOf[GameView])
+		val mockView = createMockView()
 		
-	    val controller = new GameController(mockView, 1, 2, 1, mock(classOf[DelayedRunner])) {
+	    val controller = new GameController(mockView, 2, 1, mock(classOf[DelayedRunner])) {
 			moveHistory = new MoveHistory(Nil)
 		}
 		
@@ -73,10 +73,10 @@ class GameControllerTest extends FunSuite with ShouldMatchers {
 	
 	test("pausing game clears events from runner") {
 		// Too techie - what is the behaviour expressed here?
-	    val mockView = mock(classOf[GameView])
+	    val mockView = createMockView()
 	    val mockRunner = mock(classOf[DelayedRunner])
 
-	    val controller = new GameController(mockView, 1, 2, 1, mockRunner)
+	    val controller = new GameController(mockView, 2, 1, mockRunner)
 	    controller.startGame()
 		controller.pauseGame()
 
@@ -84,14 +84,20 @@ class GameControllerTest extends FunSuite with ShouldMatchers {
 	}
 
 	test("updates view at end of game with statistics") {
-		val mockView = mock(classOf[GameView])
+		val mockView = createMockView()
 		val numberOfPlays = 2
-		val nBack = 1
 		
-	    val controller = new GameController(mockView, nBack, numberOfPlays, 1, new RunNumTimesRunner(4))
+	    val controller = new GameController(mockView, numberOfPlays, 1, new RunNumTimesRunner(4))
 	    controller.startGame()
 
 	    verify(mockView).showSuccessRate(anyDouble())
+	}
+	
+	def createMockView(): GameView = {
+		val mockView = mock(classOf[GameView])
+		stub(mockView.getNBack()).toReturn(1)
+		
+		mockView
 	}
 }
 

@@ -14,19 +14,24 @@ import android.graphics.drawable.shapes._
 import android.graphics.RectF
 import android.util._
 import android.view.View._
+import android.view.KeyEvent
 import android.media._
 
 
 import com.example.android._
 import game._
 import game.util._
+import game.sound._
 
 class AndroidGameView(context: Context, mainView: View) extends GameView {
+	val POSITION_MATCH_KEY = KeyEvent.KEYCODE_A
+	val SOUND_MATCH_KEY = KeyEvent.KEYCODE_L
+	
 	val viewDelayedRunner = new AndroidDelayedRunner()
-	val soundPlayer = new SoundPlayer()
+	val soundPlayer = new SoundPlayer(context)
 	
 	// TODO: use the DI-like stuff for injecting a default delayed runner here	
-	val controller = new GameController(this, 1, 20, 5, new AndroidDelayedRunner())
+	val controller = new GameController(this, 20, 5, new AndroidDelayedRunner())
 	
 	// List[row - 0 to 3][col - 0 to 3] of Buttons
 	val squaresByRow = (for (row <- 0 until 3) yield
@@ -39,68 +44,25 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 	
 	val positionSuccessTextField = mainView.findViewById(R.id.positionSucessTextField).asInstanceOf[TextView]
 	val soundSuccessTextField = mainView.findViewById(R.id.soundSucessTextField).asInstanceOf[TextView]
-	
+	val nBackSpinner = mainView.findViewById(R.id.nBackSpinner).asInstanceOf[Spinner]
 	
 	addButtonsToRows()
 
-    controller.startGame()
+	invokeWhenButtonClicked(R.id.startGameButton, () => controller.startGame)
+	invokeWhenButtonClicked(R.id.positionMatchButton, () => controller.positionMatchFromView())
+	invokeWhenButtonClicked(R.id.soundMatchButton, () => controller.soundMatchFromView())
 
-	mainView.findViewById(R.id.positionMatchButton).setOnClickListener(new OnClickListener() {
-		override def onClick(view: View): Unit = {
-			controller.positionMatchFromView()
-		}
+	invokeWhenButtonClicked(R.id.bothMatchButton, () => {
+		controller.positionMatchFromView()
+		controller.soundMatchFromView()
 	})
-	
-	mainView.findViewById(R.id.soundMatchButton).setOnClickListener(new OnClickListener() {
-		override def onClick(view: View): Unit = {
-			controller.soundMatchFromView()
-		}
-	})
-		
-	def activityPaused() = {
-		controller.pauseGame()
-		soundPlayer.stop()
-	}
-	
-	override def startGame(): Unit = {}
 
 	override def highlightCell(x: Int, y:Int) = {
 		val square = squaresByRow(x)(y)
-
-		// Not working - just makes the patch black (go full 2d instead?)
-		// val selectedDrawable = new ShapeDrawable(new RoundRectShape(Array(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f), new RectF(), null))
-		// selectedDrawable.getPaint().setColor(0xFF000000)
-		// square.setBackgroundDrawable(selectedDrawable)
 				
 		val animation = new AlphaAnimation(0.0f, 1.0f)
 		animation.setDuration(500)
 		square.startAnimation(animation)
-		
-	}
-	
-	class SoundPlayer { // TODO: pump out to separate file
-		val mediaPlayer = new MediaPlayer()
-		val soundsToResources = Map(
-			Sound.C -> R.raw.c,
-			Sound.H -> R.raw.h,
-			Sound.K -> R.raw.k,
-			Sound.L -> R.raw.l,
-			Sound.Q -> R.raw.q,
-			Sound.R -> R.raw.r,
-			Sound.S -> R.raw.s,
-			Sound.T -> R.raw.t)
-		
-		def playSound(sound: Sound.Value) = {
-			
-			mediaPlayer.reset()
-			val soundFile = context.getResources().openRawResourceFd(soundsToResources(sound));
-			
-			mediaPlayer.setDataSource(soundFile.getFileDescriptor(), soundFile.getStartOffset(), soundFile.getLength());
-			mediaPlayer.prepare()
-			mediaPlayer.start();
-		}
-		
-		def stop() = mediaPlayer.stop()
 	}
 	
 	override def playSound(sound: Sound.Value) = soundPlayer.playSound(sound)
@@ -111,6 +73,33 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 	override def successfulSoundMatch() = showMomentaryText(soundSuccessTextField, "sound match")
 	override def unsuccessfulSoundMatch() = showMomentaryText(soundSuccessTextField, "no sound match")
 	
+	override def showSuccessRate(successful: Double) = {
+		// FIXME: use a dedicated text field for this one
+		showMomentaryText(positionSuccessTextField, "You scored " + successful + "%")
+		()
+	}
+	
+	override def getNBack(): Int = {
+		val stringNBack = nBackSpinner.getSelectedItem().asInstanceOf[String]
+		return Integer.parseInt(stringNBack)
+	}
+	
+	// Called directly from the activity
+	def onKeyDown(keyCode: Int, event: KeyEvent): Boolean = {
+		keyCode match {
+			case POSITION_MATCH_KEY => controller.positionMatchFromView()
+			case SOUND_MATCH_KEY => controller.soundMatchFromView()
+			case _ => {} // Ignore default case
+		}
+		return true
+	}
+	
+	// Called directly from the activity
+	def activityPaused() = {
+		controller.pauseGame()
+		soundPlayer.stop()
+	}
+
 	private[this] def showMomentaryText(textField: TextView, value: String) = {
 		Log.d("Positronic", value)
 		textField.setText(value)
@@ -127,18 +116,11 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 		}		
 	}
 	
-	// private[this] def getLockForScreenDimming(): = {
-	// 	val wakeLock = getLockForScreenDimming() // it says it's finalizing it while it's held.
-	// 	val powerManager = context.getSystemService(Context.POWER_SERVICE).asInstanceOf[PowerManager]
-	// 	val wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "Positronic Wake Lock")
-	// 	return wakeLock.acquire()
-	// 	// TODO: Release this lock when the display is paused
-	// }
-	
-	
-	def showSuccessRate(successful: Double) = {
-		// FIXME: use a dedicated text field for this one
-		showMomentaryText(positionSuccessTextField, "You scored " + successful + "%")
-		()
+    private[this] def invokeWhenButtonClicked(buttonId: Int, action: () => Unit):Unit = {
+		mainView.findViewById(buttonId).setOnClickListener(new OnClickListener() {
+			override def onClick(view: View): Unit = {
+				action()
+			}
+		})
 	}
 }

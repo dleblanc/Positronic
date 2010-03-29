@@ -124,5 +124,4 @@ class RandomizedPairCreatorTest extends FunSuite with ShouldMatchers {
    		 val pairs = (sequence drop nBack) zip sequence
    		 pairs.filter(pair => pair._1 == pair._2)
    	 }
-   	 
-}
+ }

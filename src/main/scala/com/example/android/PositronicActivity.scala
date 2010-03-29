@@ -31,5 +31,7 @@ class PositronicActivity extends Activity {
 		gameView.activityPaused()
 		super.onPause()
 	}
+	
+	override def onKeyDown(keyCode: Int, event: KeyEvent) = gameView.onKeyDown(keyCode, event)
 }
 
