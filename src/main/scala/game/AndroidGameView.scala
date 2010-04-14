@@ -49,9 +49,10 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 	addButtonsToRows()
 
 	invokeWhenButtonClicked(R.id.startGameButton, () => controller.startGame)
+
 	invokeWhenButtonClicked(R.id.positionMatchButton, () => controller.positionMatchFromView())
 	invokeWhenButtonClicked(R.id.soundMatchButton, () => controller.soundMatchFromView())
-
+	
 	invokeWhenButtonClicked(R.id.bothMatchButton, () => {
 		controller.positionMatchFromView()
 		controller.soundMatchFromView()
@@ -75,7 +76,7 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 	
 	override def showSuccessRate(successful: Double) = {
 		// FIXME: use a dedicated text field for this one
-		showMomentaryText(positionSuccessTextField, "You scored " + successful + "%")
+		showMomentaryText(positionSuccessTextField, "You scored " + successful + "%", 5000)
 		()
 	}
 	
@@ -91,7 +92,7 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 			case SOUND_MATCH_KEY => controller.soundMatchFromView()
 			case _ => {} // Ignore default case
 		}
-		return true
+		return false
 	}
 	
 	// Called directly from the activity
@@ -100,10 +101,12 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 		soundPlayer.stop()
 	}
 
-	private[this] def showMomentaryText(textField: TextView, value: String) = {
+	private[this] def showMomentaryText(textField: TextView, value: String):Unit = showMomentaryText(textField, value, 800)
+
+	private[this] def showMomentaryText(textField: TextView, value: String, delay: Int):Unit = {
 		Log.d("Positronic", value)
 		textField.setText(value)
-		viewDelayedRunner.runDelayedOnce(800, () => textField.setText(""))
+		viewDelayedRunner.runDelayedOnce(delay, () => textField.setText(""))
 	}
 	
 	private[this] def addButtonsToRows() = {

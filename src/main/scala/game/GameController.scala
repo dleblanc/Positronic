@@ -1,6 +1,7 @@
 package game
 import game.util._
 import game.stats._
+import android.util._
 
 // NOTE: scala.util.Random was not seeming very random - using Java's instead
 import java.util.Random
@@ -13,6 +14,7 @@ class GameController(
 		delayedRunner: DelayedRunner) {
 	
 	val INITIAL_DELAY = 500
+	val DELAY_BETWEEN_MOVES = 3000
 	
 	protected var moveHistory = new MoveHistory(Nil)
 	var currentSelection = new Selection(false, false)
@@ -47,8 +49,9 @@ class GameController(
 		
 		view.highlightCell(position._1, position._2)
 		view.playSound(sound)
+		currentSelection = currentSelection.reset
 		
-		delayedRunner.runDelayedOnce(1000, () => {
+		delayedRunner.runDelayedOnce(DELAY_BETWEEN_MOVES, () => {
 			val expectedSelection = Selection(moveHistory.matchesSoundNMovesAgo(nBack), moveHistory.matchesLocationNMovesAgo(nBack))
 			val updatedStats = stats.getUpdatedStats(currentSelection, expectedSelection)
 
@@ -62,9 +65,7 @@ class GameController(
 		view.showSuccessRate(stats.successRate)
 	}
 	
-	def pauseGame() = {
-		delayedRunner.clearPendingEvents()
-	}
+	def pauseGame() = delayedRunner.clearPendingEvents()
 		
 	// TODO: factor out duplication in these two approaches - sound/view
 	def positionMatchFromView() = {
@@ -74,6 +75,7 @@ class GameController(
 		else {
 			view.unsuccessfulPositionMatch()
 		}
+		currentSelection = currentSelection.withPositionMatch
 	}
 	
 	def soundMatchFromView() = {
@@ -83,5 +85,6 @@ class GameController(
 		else {
 			view.unsuccessfulSoundMatch()
 		}
+		currentSelection = currentSelection.withSoundMatch
 	}
 }

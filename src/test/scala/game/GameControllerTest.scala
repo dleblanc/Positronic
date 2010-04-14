@@ -92,7 +92,9 @@ class GameControllerTest extends FunSuite with ShouldMatchers {
 
 	    verify(mockView).showSuccessRate(anyDouble())
 	}
-	
+
+	// TODO: improve testing of the 'current selection' from within the game controller - ensure it gets set when the user makes a 
+	// selection, and reset after a move.
 	def createMockView(): GameView = {
 		val mockView = mock(classOf[GameView])
 		stub(mockView.getNBack()).toReturn(1)

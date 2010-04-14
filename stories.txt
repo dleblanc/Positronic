@@ -1,14 +1,12 @@
 Upcoming stories to finish:
 
+DEFECT: There is something funky going on with the input to stats, it always comes out at 75 % - too tired to know if that's what the below says. Anywhoo - break out that part, and make it more amenable to testing, perhaps have a method which continues to the next iteration, and have the timer call that, so we can just call that directly.  Wait - since 5/20 is always .25%, it must always be thinking we never make a match (and somehow screwing up/inverting the comparison?)
+
 DEFECT: currently counting non-guesses as matches when the computer creates a non-match. If the user selects when there is no match, it counts negatively, if the computer created a match and the user didn't select it, it counts negatively, if the computer didn't create a match and the user didn't select it, it doesn't count.
 
 TODO: update the selection when the user presses a button.
 
- - Not enough pairs - generate a minimum # of them in the randomized list
- - (related to:) finish the game after M moves
- - Accept keyboard input
  - Display success/failure with colour for each type (audible, visual)
- - support changing the N back number (manually)
  - track statistics for a single game - show total at end
  - show running total as the game progresses
  - support pausing the game
