@@ -31,6 +31,7 @@ controller - creates game
 // total should be: # right guesses / # total in sequence
 
 class StatsTest extends FunSuite with ShouldMatchers {
+	val emptyStat = new Stats(Nil, Nil)
 
 	test("one both-successful guess of a sequence of 1 yields 100%") {
 		val userSelection = Selection(true, true)
@@ -67,6 +68,13 @@ class StatsTest extends FunSuite with ShouldMatchers {
 		winPercentage(userSelection, computerSelection) should equal (0.0)
 	}	
 
+	test("all non-guesses against all non-matches yields 0%") {
+		val userSelection = Selection(false, false)
+		val computerSelection = Selection(false, false)
+
+		winPercentage(userSelection, computerSelection) should equal (0.0)
+	}	
+		
 	test("a guess of both against just a position match should yield 50%") {
 		val userSelection = Selection(true, true)
 		val computerSelection = Selection(false, true)
@@ -115,18 +123,28 @@ class StatsTest extends FunSuite with ShouldMatchers {
 
 	test("only one correct guess followed by non-guessed matches results in 25%") {
 		
-		val userSelection = List(Selection(true, false), Selection(false, false), Selection(false, false), Selection(false, false))
-		val computerSelection = List(Selection(true, false), Selection(false, true), Selection(false, true), Selection(false, true))
+		val userSelection = List(Selection(true, true), Selection(false, false), Selection(false, false), Selection(false, false))
+		val computerSelection = List(Selection(true, true), Selection(true, true), Selection(true, true), Selection(true, true))
 
 		winPercentage(userSelection, computerSelection) should equal (25.0)
 	}
+	
+	test("getMatchPercentage returns 1.0 for complete matches") {
+		emptyStat.getMatchPercentage(List(false, false, true, false), List(false, false, true, false)) should equal (1.0)
+	}
 
-	test("test simple input of booleans should be be 25%") {
-		val stats = new Stats(List(false, false, true, false), List(false, false, true, false))
-			
-		stats.successRate should equal (25.0)
+	test("getMatchPercentage returns 1/3 of union of guesses and expected matches for complete matches") {
+		// only matched 1 of 3 guesses (the 2nd index)
+		emptyStat.getMatchPercentage(List(true, true, true, false), List(false, false, true, false)) should equal (1/3.0)
+	}
+
+	test("getMatchPercentage returns 0% with no guesses") {
+		emptyStat.getMatchPercentage(List(false, false), List(true, true)) should equal (0.0)
 	}
 	
+	test("getMatchPercentage returns 0% with no matches or guesses") {
+		emptyStat.getMatchPercentage(List(false, false), List(false, false)) should equal (0.0)
+	}
 	
 	def winPercentage(userSelections: List[Selection], computerSelections: List[Selection]): Double = {
 		val initialStats = new Stats(Nil, Nil)

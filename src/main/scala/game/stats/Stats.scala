@@ -6,27 +6,43 @@ case class Selection(soundSelected: Boolean, positionSelected: Boolean) {
 	def withSoundMatch() = Selection(true, positionSelected)
 	
 	def reset() = Selection(false, false)
+	
+	def eitherSelected = soundSelected || positionSelected
 }
 
-class Stats(soundSelections: List[Boolean], positionSelections: List[Boolean]) {
+class Stats(userSelections: List[Selection], expectedSelections: List[Selection]) {
 	
 	def getUpdatedStats(userSelection: Selection, expectedSelection: Selection): Stats = {
-		val isSoundMatch = userSelection.soundSelected == expectedSelection.soundSelected
-		val isPositionMatch = userSelection.positionSelected == expectedSelection.positionSelected
-		
-		new Stats(isSoundMatch :: soundSelections, isPositionMatch :: positionSelections)
+		new Stats(userSelection :: userSelections, expectedSelection :: expectedSelections)
 	}
 
 	def successRate: Double = {
-		(getMatchPercentage(soundSelections) + getMatchPercentage(positionSelections)) / 2.0 * 100.0
+		val userSoundSelections = userSelections.map(_.soundSelected)
+		val expectedSoundSelections = expectedSelections.map(_.soundSelected)
+
+		val userPositionSelections = userSelections.map(_.positionSelected)
+		val expectedPositionSelections = expectedSelections.map(_.positionSelected)
+
+		(getMatchPercentage(userSoundSelections, expectedSoundSelections) + getMatchPercentage(userPositionSelections, expectedPositionSelections)) / 2.0 * 100.0
 	}
 	
-	def getMatchPercentage(list : List[Boolean]) = {
-		list.count(_ == true) / list.size.asInstanceOf[Double]
+	// TODO: rename - this isn't percentage
+	def getMatchPercentage(userList : List[Boolean], expectedList: List[Boolean]): Double = {
+
+		val userAndExpected = userList.zip(expectedList)
+		
+		val guessesOrExpectedMatchCount = userAndExpected.count(pair => pair._1 || pair._2)
+		
+		val correctUserGuesses = userAndExpected.count(pair => pair._1 && pair._2) // There was a user guess, and it was correct
+		
+		
+		guessesOrExpectedMatchCount match {
+			case 0 => 0.0
+			case _ => correctUserGuesses / guessesOrExpectedMatchCount.asInstanceOf[Double]
+		}
 	}
 	
 	override def toString: String = {
-		val matches = soundSelections.zip(positionSelections)
-		"success %: + " + successRate + matches.toString
+		"success %: + " + successRate + userSelections.toString
 	}
 }
