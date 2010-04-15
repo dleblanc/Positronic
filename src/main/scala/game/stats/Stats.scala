@@ -23,10 +23,9 @@ class Stats(userSelections: List[Selection], expectedSelections: List[Selection]
 		val userPositionSelections = userSelections.map(_.positionSelected)
 		val expectedPositionSelections = expectedSelections.map(_.positionSelected)
 
-		(getMatchPercentage(userSoundSelections, expectedSoundSelections) + getMatchPercentage(userPositionSelections, expectedPositionSelections)) / 2.0 * 100.0
+		(getMatchPercentage(userSoundSelections, expectedSoundSelections) + getMatchPercentage(userPositionSelections, expectedPositionSelections)) / 2.0
 	}
 	
-	// TODO: rename - this isn't percentage
 	def getMatchPercentage(userList : List[Boolean], expectedList: List[Boolean]): Double = {
 
 		val userAndExpected = userList.zip(expectedList)
@@ -38,7 +37,7 @@ class Stats(userSelections: List[Selection], expectedSelections: List[Selection]
 		
 		guessesOrExpectedMatchCount match {
 			case 0 => 0.0
-			case _ => correctUserGuesses / guessesOrExpectedMatchCount.asInstanceOf[Double]
+			case _ => (correctUserGuesses / guessesOrExpectedMatchCount.asInstanceOf[Double]) * 100.0
 		}
 	}
 	

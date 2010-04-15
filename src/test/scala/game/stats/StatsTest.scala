@@ -130,12 +130,12 @@ class StatsTest extends FunSuite with ShouldMatchers {
 	}
 	
 	test("getMatchPercentage returns 1.0 for complete matches") {
-		emptyStat.getMatchPercentage(List(false, false, true, false), List(false, false, true, false)) should equal (1.0)
+		emptyStat.getMatchPercentage(List(false, false, true, false), List(false, false, true, false)) should equal (100.0)
 	}
 
 	test("getMatchPercentage returns 1/3 of union of guesses and expected matches for complete matches") {
 		// only matched 1 of 3 guesses (the 2nd index)
-		emptyStat.getMatchPercentage(List(true, true, true, false), List(false, false, true, false)) should equal (1/3.0)
+		emptyStat.getMatchPercentage(List(true, true, true, false), List(false, false, true, false)) should equal (1/3.0 * 100.0)
 	}
 
 	test("getMatchPercentage returns 0% with no guesses") {
