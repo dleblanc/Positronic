@@ -9,6 +9,15 @@ To build:
 
   - Download and install SBT: http://code.google.com/p/simple-build-tool/
 
+  - Download and unpack the Android SDK: http://developer.android.com/sdk/index.html
+
+  - Set the ANDROID_SDK_HOME environment variable, eg:
+
+    export ANDROID_SDK_HOME=~/Applications/android-sdk-mac_86
+
+  - Install an android platform: $ANDROID_SDK_HOME/tools/android, follow the prompts.
+    I installed android 1.6.
+
   - Get this distribution:
 	git clone git@github.com:dleblanc/Positronic.git
 
