@@ -76,7 +76,7 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 	
 	override def showSuccessRate(successful: Double) = {
 		// FIXME: use a dedicated text field for this one
-		showMomentaryText(positionSuccessTextField, "You scored " + successful + "%", 5000)
+		showMomentaryText(positionSuccessTextField, "You scored " + successful + "%", 10000)
 		()
 	}
 	
