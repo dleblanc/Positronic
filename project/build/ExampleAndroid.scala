@@ -1,8 +1,9 @@
 import sbt._
 
 trait Defaults {
-  def androidPlatformName = "android-1.6"
+  def androidPlatformName = "android-4"
 }
+
 class ExampleAndroid(info: ProjectInfo) extends ParentProject(info) {
   override def shouldCheckOutputDirectories = false
   override def updateAction = task { None } 
