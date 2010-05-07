@@ -1,28 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="src/main/scala"/>
-	<classpathentry kind="src" path="src/test/scala"/>
-	<classpathentry kind="lib" path="lib_managed/provided/commons-codec-1.3.jar"/>
-	<classpathentry kind="lib" path="lib_managed/provided/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib_managed/provided/httpclient-4.0.jar"/>
-	<classpathentry kind="lib" path="lib_managed/provided/httpcore-4.0.1.jar"/>
-	<classpathentry kind="lib" path="lib_managed/test/hamcrest-core-1.1.jar"/>
-	<classpathentry kind="lib" path="lib_managed/test/mockito-core-1.8.2.jar"/>
-	<classpathentry kind="lib" path="lib_managed/test/objenesis-1.0.jar"/>
-	<classpathentry kind="lib" path="lib_managed/test/scalatest-1.0.jar"/>
-	<classpathentry kind="lib" path="project/boot/scala-2.7.7/sbt-0.5.6/ivy-2.0.0.jar"/>
-	<classpathentry kind="lib" path="project/boot/scala-2.7.7/sbt-0.5.6/jsch-0.1.31.jar"/>
-	<classpathentry kind="lib" path="project/boot/scala-2.7.7/sbt-0.5.6/sbt_2.7.7-0.5.6.jar"/>
-	<classpathentry kind="lib" path="project/plugins/lib_managed/scala_2.7.7/android-plugin-0.3.jar"/>
-	<classpathentry kind="lib" path="project/plugins/lib_managed/scala_2.7.7/proguard-4.4.jar"/>
-	<classpathentry kind="lib" path="tests/lib_managed/provided/commons-codec-1.3.jar"/>
-	<classpathentry kind="lib" path="tests/lib_managed/provided/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="tests/lib_managed/provided/httpclient-4.0.jar"/>
-	<classpathentry kind="lib" path="tests/lib_managed/provided/httpcore-4.0.1.jar"/>
-	<classpathentry kind="lib" path="tests/lib_managed/test/scalacheck_2.7.7-1.6.jar"/>
+	<classpathentry including="**/*.java" kind="src" output="target/scala_2.8.0.RC1/test-classes" path="src/main/java"/>
+	<classpathentry including="**/*.scala" kind="src" output="target/scala_2.8.0.RC1/test-classes" path="src/test/scala"/>
+	<classpathentry including="**/*.scala" kind="src" path="src/main/scala"/>
+	<classpathentry kind="lib" path="lib_managed/scala_2.8.0.RC1/test/test-interface-0.3.jar"/>
+	<classpathentry kind="lib" path="lib_managed/scala_2.8.0.RC1/test/hamcrest-core-1.1.jar"/>
+	<classpathentry kind="lib" path="lib_managed/scala_2.8.0.RC1/test/scalatest-1.0.1-for-scala-2.8.0.RC1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib_managed/scala_2.8.0.RC1/test/mockito-core-1.8.2.jar"/>
+	<classpathentry kind="lib" path="lib_managed/scala_2.8.0.RC1/test/objenesis-1.0.jar"/>
+	<classpathentry kind="lib" path="lib_managed/scala_2.8.0.RC1/test/scalacheck_2.8.0.RC1-1.7.jar"/>
 	<classpathentry kind="con" path="ch.epfl.lamp.sdt.launching.SCALA_CONTAINER"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="target/scala_2.8.0.RC1/classes"/>
 </classpath>

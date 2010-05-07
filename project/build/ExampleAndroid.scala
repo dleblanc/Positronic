@@ -1,6 +1,7 @@
 import sbt._
+import de.element34.sbteclipsify._
 
-class MainProject(info: ProjectInfo) extends AndroidProject(info) {
+class MainProject(info: ProjectInfo) extends AndroidProject(info) with Eclipsify {
 	def androidPlatformName = "android-4"
 
 	val scalaToolsSnapshots = ScalaToolsSnapshots
