@@ -14,7 +14,7 @@ class GameController(
 		delayedRunner: DelayedRunner) {
 	
 	val INITIAL_DELAY = 500
-	val DELAY_BETWEEN_MOVES = 3000
+	val DELAY_BETWEEN_MOVES = 2200
 	
 	protected var moveHistory = new MoveHistory(Nil)
 	var currentSelection = new Selection(false, false)
@@ -27,10 +27,10 @@ class GameController(
 		val availablePositions = for(row <- 0 until 3; col <- 0 until 3)
 			yield (row, col)
 		
-		val creator = new RandomizedPairCreator()
+		val pairCreator = new RandomizedPairCreator()
 		
-		val sounds = creator.createRandomizedListWithNMatches(numPlays, nBack, numMatches, Sound.elements.toList.toArray) // TODO: find easier way to convert the sound elements
-		val positions = creator.createRandomizedListWithNMatches(numPlays, nBack, numMatches, availablePositions.toArray)
+		val sounds = pairCreator.createRandomizedListWithNMatches(numPlays, nBack, numMatches, Sound.values.toList.toArray) // TODO: find easier way to convert the sound elements
+		val positions = pairCreator.createRandomizedListWithNMatches(numPlays, nBack, numMatches, availablePositions.toArray)
 
 		delayedRunner.runDelayedOnce(INITIAL_DELAY, () => makeRandomPlay(sounds, positions, new Stats(Nil, Nil)))
 		moveHistory = new MoveHistory(Nil)

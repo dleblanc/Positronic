@@ -102,8 +102,8 @@ class RandomizedPairCreatorTest extends FunSuite with ShouldMatchers {
 		 		val fromList = 1 to sequenceSize toList
 	 			val randomElementList = creator.pickRandomElements(fromList, pickCount)
 	 			
-	 			val sortedVals = randomElementList.sort(_ < _)
-	 			val dupesFound = List.exists2(sortedVals, sortedVals drop 1) (_ == _)
+	 			val sortedVals = randomElementList.sortWith(_ < _)
+	 			val dupesFound = (sortedVals, sortedVals drop 1).zipped.exists (_ == _)
 	 			
 	 			!dupesFound &&
 	 			randomElementList.forall(fromList contains _) 												:| "random elements are all from the input list" &&

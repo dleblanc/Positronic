@@ -97,7 +97,7 @@ class GameControllerTest extends FunSuite with ShouldMatchers {
 	// selection, and reset after a move.
 	def createMockView(): GameView = {
 		val mockView = mock(classOf[GameView])
-		stub(mockView.getNBack()).toReturn(1)
+		when(mockView.getNBack()).thenReturn(1)
 		
 		mockView
 	}

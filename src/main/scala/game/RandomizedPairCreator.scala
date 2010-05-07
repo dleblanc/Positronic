@@ -8,7 +8,7 @@ class RandomizedPairCreator {
 
 	def createRandomizedListWithNMatches[T](size: Int, nBack:Int, numberOfMatches: Int, fromCollection: Array[T]) : List[T] = {
 		val randomIndexes = pickRandomElements((0 until size - nBack).toList, numberOfMatches)
-		val sortedIndexes = randomIndexes sort((a, b) => a < b)
+		val sortedIndexes = randomIndexes sortWith((a, b) => a < b)
 		
 		makeWithDupesAt(sortedIndexes, size, nBack, fromCollection, 0)
 	}

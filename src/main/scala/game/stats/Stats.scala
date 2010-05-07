@@ -28,11 +28,11 @@ class Stats(userSelections: List[Selection], expectedSelections: List[Selection]
 	
 	def getMatchPercentage(userList : List[Boolean], expectedList: List[Boolean]): Double = {
 
-		val userAndExpected = userList.zip(expectedList)
+		val userAndExpectedPairs = userList.zip(expectedList)
 		
-		val guessesOrExpectedMatchCount = userAndExpected.count(pair => pair._1 || pair._2)
+		val guessesOrExpectedMatchCount = userAndExpectedPairs.count(pair => pair._1 || pair._2)
 		
-		val correctUserGuesses = userAndExpected.count(pair => pair._1 && pair._2) // There was a user guess, and it was correct
+		val correctUserGuesses = userAndExpectedPairs.count(pair => pair._1 && pair._2) // There was a user guess, and it was correct
 		
 		
 		guessesOrExpectedMatchCount match {
