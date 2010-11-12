@@ -23,41 +23,57 @@
 		</TableRow>
 	</TableLayout>
 
+
+	<TableLayout android:id="@+id/statusTable"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal|top" android:orientation="vertical"
+		android:gravity="center_horizontal" android:layout_below="@+id/cellTable" android:stretchColumns="1">
+
+		<TableRow android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:orientation="horizontal"
+			android:id="@+id/statusRow">
+		
+			<ImageButton android:id="@+id/positionMatchStatus"
+				android:layout_gravity="left|bottom" android:text="position"
+				android:layout_width="wrap_content" android:layout_height="30dp"
+				android:layout_below="@+id/cellTable">
+			</ImageButton>
+		
+			<ImageButton android:id="@+id/soundMatchStatus"
+				android:layout_gravity="right|bottom" android:text="sound"
+				android:layout_width="wrap_content" android:layout_height="30dp"
+				android:layout_below="@+id/cellTable" android:layout_toRightOf="@+id/positionMatchStatus">
+			</ImageButton>
+		
+		</TableRow>
+	</TableLayout>
+	
 	<Button android:id="@+id/positionMatchButton"
 		android:layout_gravity="left|bottom" android:text="Position"
-		android:layout_width="80dp" android:layout_height="80dp"
-		android:layout_below="@+id/cellTable">
-	</Button>
-
-	<TextView android:id="@+id/positionSucessTextField"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_below="@+id/positionMatchButton">
-	</TextView>
-
-	<Button android:id="@+id/bothMatchButton"
-		android:text="Both"
-		android:layout_gravity="center|bottom" 
-		android:layout_width="80dp" android:layout_height="80dp"
-		android:layout_below="@+id/cellTable"
-		android:layout_toRightOf="@+id/positionMatchButton">
+		android:layout_width="160dp" android:layout_height="80dp"
+		android:layout_below="@+id/statusTable">
 	</Button>
 
 	<Button android:id="@+id/soundMatchButton"
 		android:layout_gravity="right|bottom" android:text="Sound"
-		android:layout_width="80dp" android:layout_height="80dp"
-		android:layout_toRightOf="@+id/bothMatchButton"
-		android:layout_alignBottom="@+id/positionMatchButton">
+		android:layout_width="160dp" android:layout_height="80dp"
+		android:layout_toRightOf="@+id/positionMatchButton"
+		android:layout_below="@+id/statusTable">
+	</Button>
+	
+	<!-- Want a bit of padding in-between so we don't get false hits here -->
+	<Button android:id="@+id/bothMatchButton"
+		android:text="Both"
+		android:layout_gravity="center|bottom" 
+		android:layout_width="320dp" android:layout_height="80dp"
+		android:layout_below="@+id/positionMatchButton"		
+		android:paddingTop="30dip">
 	</Button>
 
-	<TextView android:id="@+id/soundSucessTextField"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_below="@+id/soundMatchButton"
-		android:layout_alignRight="@+id/soundMatchButton">
-	</TextView>
 
 	<Spinner android:id="@+id/nBackSpinner"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_below="@+id/soundSucessTextField"
+		android:layout_below="@+id/bothMatchButton"
 		android:drawSelectorOnTop="true"
 		android:prompt="@string/nBackSelectorPrompt"
 		android:entries="@array/nBackValues"/>
@@ -66,6 +82,6 @@
 		android:text="Start"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:layout_toRightOf="@+id/nBackSpinner" 
-		android:layout_below="@+id/soundSucessTextField"
+		android:layout_below="@+id/bothMatchButton"
 		android:layout_alignBottom="@+id/nBackSpinner"/>
 </RelativeLayout>

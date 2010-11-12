@@ -33,6 +33,7 @@ class GameController(
 		val positions = pairCreator.createRandomizedListWithNMatches(numPlays, nBack, numMatches, availablePositions.toArray)
 
 		delayedRunner.runDelayedOnce(INITIAL_DELAY, () => makeRandomPlay(sounds, positions, new Stats(Nil, Nil)))
+		
 		moveHistory = new MoveHistory(Nil)
 	}
 	

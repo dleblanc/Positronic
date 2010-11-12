@@ -10,6 +10,7 @@ import android.widget._
 import android.view._
 import android.view.animation._
 import android.graphics.drawable._
+import android.graphics.Color
 import android.graphics.drawable.shapes._
 import android.graphics.RectF
 import android.util._
@@ -42,8 +43,7 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 							}).toList
 						).toList
 	
-	val positionSuccessTextField = mainView.findViewById(R.id.positionSucessTextField).asInstanceOf[TextView]
-	val soundSuccessTextField = mainView.findViewById(R.id.soundSucessTextField).asInstanceOf[TextView]
+	//val positionSuccessTextField = mainView.findViewById(R.id.positionSucessTextField).asInstanceOf[TextView]
 	val nBackSpinner = mainView.findViewById(R.id.nBackSpinner).asInstanceOf[Spinner]
 	
 	addButtonsToRows()
@@ -57,7 +57,10 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 		controller.positionMatchFromView()
 		controller.soundMatchFromView()
 	})
-
+	
+	mainView.findViewById(R.id.positionMatchStatus).setBackgroundColor(Color.GRAY)
+	mainView.findViewById(R.id.soundMatchStatus).setBackgroundColor(Color.GRAY)
+	
 	override def highlightCell(x: Int, y:Int) = {
 		val square = squaresByRow(x)(y)
 				
@@ -68,15 +71,15 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 	
 	override def playSound(sound: Sound.Value) = soundPlayer.playSound(sound)
 	
-	override def successfulPositionMatch() = showMomentaryText(positionSuccessTextField, "position match")
-	override def unsuccessfulPositionMatch() = showMomentaryText(positionSuccessTextField, "no position match")
+	override def successfulPositionMatch() = showStatusWithColour(R.id.positionMatchStatus, Color.GREEN)
+	override def unsuccessfulPositionMatch() = showStatusWithColour(R.id.positionMatchStatus, Color.RED)
 
-	override def successfulSoundMatch() = showMomentaryText(soundSuccessTextField, "sound match")
-	override def unsuccessfulSoundMatch() = showMomentaryText(soundSuccessTextField, "no sound match")
+	override def successfulSoundMatch() = showStatusWithColour(R.id.soundMatchStatus, Color.GREEN)
+	override def unsuccessfulSoundMatch() = showStatusWithColour(R.id.soundMatchStatus, Color.RED)
 	
 	override def showSuccessRate(successful: Double) = {
 		// FIXME: use a dedicated text field for this one
-		showMomentaryText(positionSuccessTextField, "You scored " + successful + "%", 10000)
+		//showMomentaryText(positionSuccessTextField, "You scored " + successful + "%", 10000)
 		()
 	}
 	
@@ -117,6 +120,7 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 		for (row <- 0 until 3; col <- 0 until 3) {
 			buttonRows(row).addView(squaresByRow(row)(col))	
 		}		
+		
 	}
 	
     private[this] def invokeWhenButtonClicked(buttonId: Int, action: () => Unit):Unit = {
@@ -125,5 +129,14 @@ class AndroidGameView(context: Context, mainView: View) extends GameView {
 				action()
 			}
 		})
+	}
+    
+	private[this] def showStatusWithColour(statusViewId: Int, colour: Int) = {
+		val positionButton = mainView.findViewById(statusViewId)
+		positionButton.setBackgroundColor(colour);
+
+		val animation = new AlphaAnimation(0.8f, 0.1f)
+		animation.setDuration(800)
+		positionButton.startAnimation(animation)
 	}
 }

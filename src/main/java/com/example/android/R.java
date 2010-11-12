@@ -18,17 +18,19 @@ public final class R {
         public static final int solid_blue=0x7f020001;
     }
     public static final class id {
-        public static final int bothMatchButton=0x7f070006;
+        public static final int bothMatchButton=0x7f07000a;
         public static final int buttonRow0=0x7f070001;
         public static final int buttonRow1=0x7f070002;
         public static final int buttonRow2=0x7f070003;
         public static final int cellTable=0x7f070000;
-        public static final int nBackSpinner=0x7f070009;
-        public static final int positionMatchButton=0x7f070004;
-        public static final int positionSucessTextField=0x7f070005;
-        public static final int soundMatchButton=0x7f070007;
-        public static final int soundSucessTextField=0x7f070008;
-        public static final int startGameButton=0x7f07000a;
+        public static final int nBackSpinner=0x7f07000b;
+        public static final int positionMatchButton=0x7f070008;
+        public static final int positionMatchStatus=0x7f070006;
+        public static final int soundMatchButton=0x7f070009;
+        public static final int soundMatchStatus=0x7f070007;
+        public static final int startGameButton=0x7f07000c;
+        public static final int statusRow=0x7f070005;
+        public static final int statusTable=0x7f070004;
     }
     public static final class layout {
         public static final int positronic=0x7f030000;

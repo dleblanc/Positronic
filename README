@@ -9,14 +9,14 @@ To build:
 
   - Download and install SBT: http://code.google.com/p/simple-build-tool/
 
-  - Download and unpack the Android SDK: http://developer.android.com/sdk/index.html
+  - Download and unpack the Android SDK: http://developer.android.com/sdk/index.html Android SDK ('brew install sbt' android-sdk when using homebrew[http://github.com/mxcl/homebrew] on OSX).
 
   - Set the ANDROID_SDK_HOME environment variable, eg:
 
     export ANDROID_SDK_HOME=~/Applications/android-sdk-mac_86
 
-  - Install an android platform: $ANDROID_SDK_HOME/tools/android, follow the prompts.
-    I installed android 1.6.
+  - Install an android platform: launch $ANDROID_SDK_HOME/tools/android, go to 'available packages' install a recent SDK, follow the prompts.
+    I installed android 2.2.
 
   - Get this distribution:
 	git clone git@github.com:dleblanc/Positronic.git
@@ -37,6 +37,10 @@ To build:
 
   - Run the tests everytime a file is changed - you would do this in a separate window while you hack on the code:
 	sbt ~test
+
+  - Edit in eclipse:
+        sbt eclipse
+        import as existing project
 
 Image of the brain taken from http://openclipart.org/SOMbanners/files/kattekrab/8060, which is in the public domain.
 Sounds taken from the excellent 'Brain Workshop' open source desktop program.

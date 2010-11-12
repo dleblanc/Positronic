@@ -1,6 +1,6 @@
 Upcoming stories to finish:
 
- - Display success/failure with colour for each type (audible, visual)
+ - Display success/failure with colour for each type (audible, visual) - ALSO, display something other than just colour.
  - show running total as the game progresses
  - Display detailed stats - audible guesses/correct, same for position, and % right.
  - support pausing the game
