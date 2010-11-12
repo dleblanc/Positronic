@@ -1,87 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:gravity="center_horizontal" android:layout_centerHorizontal="true">
+	android:stretchColumns="1">
 
-	<TableLayout android:id="@+id/cellTable"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_gravity="center_horizontal|top" android:orientation="vertical"
-		android:gravity="center_horizontal" android:layout_alignParentTop="true"
-		android:layout_centerHorizontal="false">
+	<TableRow>
+		<TableLayout android:id="@+id/cellTable"
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+ 			android:gravity="center" android:layout_column="1">
 
-		<TableRow android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:orientation="horizontal"
-			android:id="@+id/buttonRow0">
-		</TableRow>
-		<TableRow android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:orientation="horizontal"
-			android:id="@+id/buttonRow1" android:layout_below="@+id/buttonRow0">
-		</TableRow>
-		<TableRow android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:orientation="horizontal"
-			android:id="@+id/buttonRow2" android:layout_below="@+id/buttonRow1">
-		</TableRow>
-	</TableLayout>
+			<TableRow android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:orientation="horizontal"
+				android:id="@+id/buttonRow0">
+			</TableRow>
+			<TableRow android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:orientation="horizontal"
+				android:id="@+id/buttonRow1" android:layout_below="@+id/buttonRow0">
+			</TableRow>
+			<TableRow android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:orientation="horizontal"
+				android:id="@+id/buttonRow2" android:layout_below="@+id/buttonRow1">
+			</TableRow>
+		</TableLayout>
+	</TableRow>
 
+	<TableRow>
 
-	<TableLayout android:id="@+id/statusTable"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:layout_gravity="center_horizontal|top" android:orientation="vertical"
-		android:gravity="center_horizontal" android:layout_below="@+id/cellTable" android:stretchColumns="1">
+		<ImageButton android:id="@+id/positionMatchStatus"
+			android:gravity="left" android:text="position"
+			android:layout_width="fill_parent" android:layout_height="30dp">
+		</ImageButton>
 
-		<TableRow android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:orientation="horizontal"
-			android:id="@+id/statusRow">
-		
-			<ImageButton android:id="@+id/positionMatchStatus"
-				android:layout_gravity="left|bottom" android:text="position"
-				android:layout_width="wrap_content" android:layout_height="30dp"
-				android:layout_below="@+id/cellTable">
-			</ImageButton>
-		
-			<ImageButton android:id="@+id/soundMatchStatus"
-				android:layout_gravity="right|bottom" android:text="sound"
-				android:layout_width="wrap_content" android:layout_height="30dp"
-				android:layout_below="@+id/cellTable" android:layout_toRightOf="@+id/positionMatchStatus">
-			</ImageButton>
-		
-		</TableRow>
-	</TableLayout>
-	
-	<Button android:id="@+id/positionMatchButton"
-		android:layout_gravity="left|bottom" android:text="Position"
-		android:layout_width="160dp" android:layout_height="80dp"
-		android:layout_below="@+id/statusTable">
-	</Button>
+		<ImageButton android:id="@+id/soundMatchStatus"
+			android:gravity="right" android:text="sound"
+			android:layout_width="fill_parent" android:layout_height="30dp">
+		</ImageButton>
 
-	<Button android:id="@+id/soundMatchButton"
-		android:layout_gravity="right|bottom" android:text="Sound"
-		android:layout_width="160dp" android:layout_height="80dp"
-		android:layout_toRightOf="@+id/positionMatchButton"
-		android:layout_below="@+id/statusTable">
-	</Button>
-	
-	<!-- Want a bit of padding in-between so we don't get false hits here -->
-	<Button android:id="@+id/bothMatchButton"
-		android:text="Both"
-		android:layout_gravity="center|bottom" 
-		android:layout_width="320dp" android:layout_height="80dp"
-		android:layout_below="@+id/positionMatchButton"		
-		android:paddingTop="30dip">
-	</Button>
+	</TableRow>
 
 
-	<Spinner android:id="@+id/nBackSpinner"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_below="@+id/bothMatchButton"
-		android:drawSelectorOnTop="true"
-		android:prompt="@string/nBackSelectorPrompt"
-		android:entries="@array/nBackValues"/>
+	<TableRow>
+		<Button 
+			android:id="@+id/positionMatchButton"
+			android:gravity="left" android:text="Position"
+			android:layout_height="80dp">
+		</Button>
 
-	<Button android:id="@+id/startGameButton"
-		android:text="Start"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_toRightOf="@+id/nBackSpinner" 
-		android:layout_below="@+id/bothMatchButton"
-		android:layout_alignBottom="@+id/nBackSpinner"/>
-</RelativeLayout>
+		<Button 
+			android:layout_column="2"
+			android:id="@+id/soundMatchButton"
+			android:gravity="right" android:text="Sound"
+			android:layout_height="80dp">
+		</Button>
+	</TableRow>
+
+	<TableRow>
+		<!-- Want a bit of padding in-between so we don't get false hits here -->
+		<Button 
+			android:id="@+id/bothMatchButton"
+			android:layout_column="1"
+			android:text="Both"
+			android:gravity="center" 
+			android:layout_height="60dp"
+			android:paddingTop="30dip">
+		</Button>
+	</TableRow>
+
+	<TableRow>
+		<Spinner android:id="@+id/nBackSpinner"
+			android:layout_width="wrap_content"
+			android:gravity="left"
+			android:drawSelectorOnTop="true"
+			android:prompt="@string/nBackSelectorPrompt"
+			android:entries="@array/nBackValues"/>
+
+		<Button 
+			android:id="@+id/startGameButton"
+			android:layout_column="2"
+			android:text="Start"
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:gravity="right"/>
+	</TableRow>
+
+
+</TableLayout>
