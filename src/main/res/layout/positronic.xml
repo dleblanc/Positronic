@@ -1,72 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:stretchColumns="1">
+<LinearLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	>
 
-	<TableRow>
-		<TableLayout android:id="@+id/cellTable"
-			android:layout_width="fill_parent" android:layout_height="wrap_content"
- 			android:gravity="center" android:layout_column="1">
+	<TableLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		>
+		<TableRow>
+			<TableLayout android:id="@+id/cellTable"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"
+	 			android:gravity="center">
 
-			<TableRow android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:orientation="horizontal"
-				android:id="@+id/buttonRow0">
-			</TableRow>
-			<TableRow android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:orientation="horizontal"
-				android:id="@+id/buttonRow1" android:layout_below="@+id/buttonRow0">
-			</TableRow>
-			<TableRow android:layout_width="fill_parent"
-				android:layout_height="wrap_content" android:orientation="horizontal"
-				android:id="@+id/buttonRow2" android:layout_below="@+id/buttonRow1">
-			</TableRow>
-		</TableLayout>
-	</TableRow>
-
-	<TableRow>
-
+				<TableRow android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:orientation="horizontal"
+					android:id="@+id/buttonRow0">
+				</TableRow>
+				<TableRow android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:orientation="horizontal"
+					android:id="@+id/buttonRow1" android:layout_below="@+id/buttonRow0">
+				</TableRow>
+				<TableRow android:layout_width="fill_parent"
+					android:layout_height="wrap_content" android:orientation="horizontal"
+					android:id="@+id/buttonRow2" android:layout_below="@+id/buttonRow1">
+				</TableRow>
+			</TableLayout>
+		</TableRow>
+	</TableLayout>
+	
+	<LinearLayout 
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		>
 		<ImageButton android:id="@+id/positionMatchStatus"
-			android:gravity="left" android:text="position"
-			android:layout_width="fill_parent" android:layout_height="30dp">
+			android:gravity="left"
+			android:text="position"
+			android:layout_width="120dp"
+			android:layout_weight="50"
+			android:layout_height="40dp">
 		</ImageButton>
 
 		<ImageButton android:id="@+id/soundMatchStatus"
 			android:gravity="right" android:text="sound"
-			android:layout_width="fill_parent" android:layout_height="30dp">
-		</ImageButton>
+			android:layout_width="120dp" android:layout_height="40dp">
+		</ImageButton>		
+	</LinearLayout>	
 
-	</TableRow>
-
-
-	<TableRow>
+	<TableRow
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		>
+		
 		<Button 
 			android:id="@+id/positionMatchButton"
 			android:gravity="left" android:text="Position"
-			android:layout_height="80dp">
+			android:layout_height="80dp" android:layout_width="120dp">
 		</Button>
 
+	</TableRow>
+
+	<TableRow
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
 		<Button 
-			android:layout_column="2"
 			android:id="@+id/soundMatchButton"
-			android:gravity="right" android:text="Sound"
-			android:layout_height="80dp">
+			android:gravity="left" android:text="Sound"
+			android:layout_height="80dp" android:layout_width="120dp">
 		</Button>
 	</TableRow>
 
-	<TableRow>
+	<TableRow
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		>
+		
 		<!-- Want a bit of padding in-between so we don't get false hits here -->
 		<Button 
 			android:id="@+id/bothMatchButton"
-			android:layout_column="1"
 			android:text="Both"
 			android:gravity="center" 
 			android:layout_height="60dp"
+			android:layout_width="120dp"
 			android:paddingTop="30dip">
 		</Button>
 	</TableRow>
 
-	<TableRow>
-		<Spinner android:id="@+id/nBackSpinner"
+	<TableRow
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		>
+		
+		<Spinner 
+			android:id="@+id/nBackSpinner"
+			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:gravity="left"
 			android:drawSelectorOnTop="true"
@@ -75,11 +106,11 @@
 
 		<Button 
 			android:id="@+id/startGameButton"
-			android:layout_column="2"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content" 
 			android:text="Start"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
 			android:gravity="right"/>
 	</TableRow>
 
 
-</TableLayout>
+</LinearLayout>
